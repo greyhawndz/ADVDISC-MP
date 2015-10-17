@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CameraController.cs">
+    <Files>
+      <File FileName="..\..\..\Unity Projects\Jacket\Assets\Scripts\Jacket.cs" Line="25" Column="69" />
+      <File FileName="..\..\..\Unity Projects\Laser Defender\Assets\Scripts\PlayerController.cs" Line="9" Column="34" />
+      <File FileName="Assets\Scripts\CameraController.cs" Line="6" Column="31" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
