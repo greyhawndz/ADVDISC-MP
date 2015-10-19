@@ -43,6 +43,9 @@ public class CameraController : MonoBehaviour {
 				this.transform.position += new Vector3(this.transform.position.x, this.transform.position.y, -cameraDistance);
 			}
 		}
+		if(Input.GetKeyDown(KeyCode.Space)){
+			this.transform.position = new Vector3(0,0,this.transform.position.z);
+		}
 		
 		
 	}
