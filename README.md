@@ -1,2 +1,0 @@
-# ADVDISC-MP
-ayy lmao
