@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour {
 		if(Input.GetKey (KeyCode.A)){
 			this.transform.position += Vector3.left * moveSpeed * Time.deltaTime;
 		}
-		if(Input.GetAxis("Mouse ScrollWheel") != 0){
+		/*if(Input.GetAxis("Mouse ScrollWheel") != 0){
 			if(Input.GetAxis("Mouse ScrollWheel") >= 0){
 				Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
 				cameraDistance += Input.GetAxis("Mouse ScrollWheel") * scrollSpeed * Time.deltaTime;
@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour {
 				Debug.Log("Zoom out Camera Value: " +cameraDistance);	
 				this.transform.position += new Vector3(this.transform.position.x, this.transform.position.y, -cameraDistance);
 			}
-		}
+		}*/
 		if(Input.GetKeyDown(KeyCode.Space)){
 			this.transform.position = new Vector3(0,0,this.transform.position.z);
 		}
