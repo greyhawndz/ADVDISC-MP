@@ -14,6 +14,7 @@ public class GUIScript : MonoBehaviour {
 		public string x;
 		public string y;
 	}
+<<<<<<< HEAD:Grapher Program/Assets/Scripts/GUIScript.cs
 <<<<<<< HEAD:Grapher Program/Assets/GUIScript.cs
 	//variables to choose which window, you can ignore these
 =======
@@ -23,12 +24,13 @@ public class GUIScript : MonoBehaviour {
 	
 	//variables to choose which window
 >>>>>>> origin/Development:Grapher Program/Assets/Scripts/GUIScript.cs
+=======
+	//variables to choose which window
+>>>>>>> parent of 592fb0a... Enhanced GUI script with some of the new features:Grapher Program/Assets/GUIScript.cs
 	public Rect windowRect;
 	public bool clicked = false;
 	public bool setObjectClicked = false;
 	public bool setVerticesClicked = false;
-	public bool setEllipseClicked = false;
-	public bool setParabolaClicked = false;
 	public bool scaleClicked = false;
 	public bool reflectClicked = false;
 	public bool rotateClicked = false;
@@ -38,27 +40,21 @@ public class GUIScript : MonoBehaviour {
 	public Font font; 
 	private GUIStyle guiStyle;
 
+<<<<<<< HEAD:Grapher Program/Assets/Scripts/GUIScript.cs
 <<<<<<< HEAD:Grapher Program/Assets/GUIScript.cs
 	//Variables used for temporary storage, you can ignore these
 =======
 	//Variables used for temporary storage
 	public GameObject LineManager;
 >>>>>>> origin/Development:Grapher Program/Assets/Scripts/GUIScript.cs
+=======
+	//Variables used for temporary storage
+>>>>>>> parent of 592fb0a... Enhanced GUI script with some of the new features:Grapher Program/Assets/GUIScript.cs
 	public string equationBox;
 	public string degreeBox;
 	public string percentageBox;
 	public string xTranslateBox;
 	public string yTranslateBox;
-	public string ellipseCenterBoxX;
-	public string ellipseCenterBoxY;
-	public string ellipseWidthBox;
-	public string ellipseHeightBox;
-
-	public string parabolaCenterBoxX;
-	public string parabolaCenterBoxY;
-	public string parabolaMagnitudeBox;
-
-
 	public string stringCleaner;
 	public string shearBox;
 	public Regex rgx;
@@ -69,7 +65,7 @@ public class GUIScript : MonoBehaviour {
 	VectorData[] tempVectorArray = new VectorData[8];
 	
 
-	/*============Variables with the usable data====================*/
+	//Variables with the usable data
 	VectorData[] vectorArray;
 	Vector3[] vectorArray2;
 	public int percentage;
@@ -78,58 +74,19 @@ public class GUIScript : MonoBehaviour {
 	public int yTranslate;
 	public string equation;
 	public int shearAmount;
-
-	public int ellipseCenterX;
-	public int ellipseCenterY;
-	public int ellipseHeight;
-	public int ellipseWidth;
-
-	public int parabolaCenterX;
-	public int parabolaCenterY;
-	public int parabolaMagnitude;
-
 	public string formulaBoxContent;
 	public bool reflectX = false;
 	public bool reflectY =false;
-
-
-
-
 	void clear()
 	{
 		setObjectClicked = false;
 		setVerticesClicked = false;
 		scaleClicked = false;
 		reflectClicked = false;
-		setEllipseClicked = false;
-		setParabolaClicked = false;
 		rotateClicked = false;
 		shearClicked = false;
 		translateClicked = false;
 		setEquationClicked = false;
-	}
-	void eraseFigure()
-	{
-		vectorArray =null;
-		percentage= 0;
-		degrees = 0;
-		xTranslate = 0;
-		yTranslate = 0;
-		equation = "";
-		shearAmount = 0;
-		
-		ellipseCenterX = 0;
-		ellipseCenterY = 0;
-	    ellipseHeight = 0;
-		ellipseWidth = 0;
-		
-		parabolaCenterX = 0;
-		parabolaCenterY = 0;
-		parabolaMagnitude = 0;
-		
-		formulaBoxContent = "";
-		reflectX = false;
-		reflectY =false;
 	}
 	// Use this for initialization
 	void Start () {
@@ -174,11 +131,6 @@ public class GUIScript : MonoBehaviour {
 			clear ();
 			setObjectClicked=true;
 		}
-
-		if (GUI.Button (new Rect (10, 85, 100, 30), "Erase Figure")) {
-			clear ();
-			eraseFigure ();
-		}
 			
 		if (GUI.Button (new Rect (180, 160, 80, 30), "Reflect")) {
 			clear ();
@@ -215,12 +167,6 @@ public class GUIScript : MonoBehaviour {
 		}
 		if (setVerticesClicked) {
 			windowRect = GUI.Window (0, windowRect, setVerticesFunction, "Set Vertices");
-		}
-		if (setEllipseClicked) {
-			windowRect = GUI.Window (0, windowRect, setEllipse, "Set Ellipse");
-		}
-		if (setParabolaClicked) {
-			windowRect = GUI.Window (0, windowRect, setParabola, "Set Parabola");
 		}
 		if (translateClicked) {
 			windowRect = GUI.Window (0, windowRect, translate, "Translate");
@@ -347,23 +293,15 @@ public class GUIScript : MonoBehaviour {
 
 	public void setObjectFunction(int windowID) {
 
-		if (GUI.Button(new Rect(75, 30, 100, 30), "Equation"))
+		if (GUI.Button(new Rect(75, 50, 100, 30), "Equation"))
 		{	
 
 			setEquationClicked =true;
 			setEquation(0);}
 		
-		if (GUI.Button (new Rect (75, 65, 100, 30), "Vertices")) {
+		if (GUI.Button (new Rect (75, 100, 100, 30), "Vertices")) {
 			setVerticesClicked = true;
 			setVerticesFunction(0);
-		}
-		if (GUI.Button (new Rect (75, 100, 100, 30), "Ellipse")) {
-			setEllipseClicked = true;
-			setEllipse(0);
-		}
-		if (GUI.Button (new Rect (75, 135, 100, 30), "Parabola")) {
-			setParabolaClicked = true;
-			setParabola(0);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			clear ();
@@ -371,7 +309,8 @@ public class GUIScript : MonoBehaviour {
 		GUI.DragWindow();
 	}
 	public void setEquation(int windowID)
-	{	GUI.Label(new Rect(40, 55, 130, 30), "Equation");
+	{	
+		GUI.Label(new Rect(40, 55, 130, 30), "Equation");
 		equationBox = GUI.TextArea(new Rect(40, 75, 180, 30), equationBox);
 
 		
@@ -387,80 +326,6 @@ public class GUIScript : MonoBehaviour {
 		}
 		GUI.DragWindow();
 	}
-
-	public void setEllipse(int windowID)
-	{	
-		GUI.Label(new Rect(50, 40, 130, 30), "X");
-		ellipseCenterBoxX = GUI.TextArea(new Rect(65, 35, 130, 30), ellipseCenterBoxX);
-		ellipseCenterBoxX = rgx.Replace(ellipseCenterBoxX, "");
-		GUI.Label(new Rect(50, 80, 130, 30), "Y");
-		ellipseCenterBoxY = GUI.TextArea(new Rect(65, 75, 130, 30), ellipseCenterBoxY);
-		ellipseCenterBoxY = rgx.Replace(ellipseCenterBoxY, "");
-		GUI.Label(new Rect(50, 120, 130, 30), "H");
-		ellipseHeightBox = GUI.TextArea(new Rect(65, 115, 130, 30), ellipseHeightBox);
-		ellipseHeightBox = rgx.Replace(ellipseHeightBox, "");
-		GUI.Label(new Rect(50, 160, 130, 30), "W");
-		ellipseWidthBox = GUI.TextArea(new Rect(65, 155, 130, 30), ellipseWidthBox);
-		ellipseWidthBox = rgx.Replace(ellipseWidthBox, "");
-		
-		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
-			ellipseCenterX=int.Parse(ellipseCenterBoxX);
-			ellipseCenterY=int.Parse(ellipseCenterBoxY);
-			ellipseHeight=int.Parse(ellipseHeightBox);
-			ellipseWidth=int.Parse(ellipseWidthBox);
-			ellipseCenterBoxX = "";
-			ellipseCenterBoxY= "";
-			ellipseHeightBox= "";
-			ellipseWidthBox= "";
-			print("X: "+ellipseCenterX);
-			print("Y: "+ellipseCenterY);
-			print("H: "+ellipseHeight);
-			print("W: "+ellipseWidth);
-			clear ();
-		}
-		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
-			equationBox ="";
-			clear ();
-		}
-		GUI.DragWindow();
-	}
-
-
-	public void setParabola(int windowID)
-	{	
-		GUI.Label(new Rect(50, 40, 130, 30), "X");
-		parabolaCenterBoxX = GUI.TextArea(new Rect(65, 35, 130, 30), parabolaCenterBoxX);
-		parabolaCenterBoxX = rgx.Replace(parabolaCenterBoxX, "");
-		GUI.Label(new Rect(50, 80, 130, 30), "Y");
-		parabolaCenterBoxY = GUI.TextArea(new Rect(65, 75, 130, 30), parabolaCenterBoxY);
-		parabolaCenterBoxY = rgx.Replace(parabolaCenterBoxY, "");
-		GUI.Label(new Rect(50, 120, 130, 30), "M");
-		parabolaMagnitudeBox = GUI.TextArea(new Rect(65, 115, 130, 30), parabolaMagnitudeBox);
-		parabolaMagnitudeBox = rgx.Replace(parabolaMagnitudeBox, "");
-
-		
-		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
-			parabolaCenterX=int.Parse(parabolaCenterBoxX);
-			parabolaCenterY=int.Parse(parabolaCenterBoxY);
-			parabolaMagnitude=int.Parse(parabolaMagnitudeBox);
-
-			parabolaCenterBoxX = "";
-			parabolaCenterBoxY= "";
-			parabolaMagnitudeBox= "";
-	
-			print("X: "+parabolaCenterX);
-			print("Y: "+parabolaCenterY);
-			print("M: "+parabolaMagnitude);
-
-			clear ();
-		}
-		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
-			equationBox ="";
-			clear ();
-		}
-		GUI.DragWindow();
-	}
-
 	public void setVerticesFunction(int windowID) {
 
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {

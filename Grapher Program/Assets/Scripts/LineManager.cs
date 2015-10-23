@@ -1,25 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 public class LineManager : MonoBehaviour {
-	private LineRenderer lineRender;
+	public GameObject linePrefab;
+	private LineRenderer lineRenderer;
 	// Use this for initialization
 	void Start () {
-		lineRender = GetComponent<LineRenderer>();
+		lineRenderer = linePrefab.GetComponent<LineRenderer>();
 	}
 	
+	// Update is called once per frame
+	void Update () {
 	
-	
-	public void RenderLine(Vector3[] data){
-		Vector3[] vertices = data;
-		lineRender.SetVertexCount(vertices.Length);
-		for(int i = 0; i < vertices.Length; i++){
-			Vector3 pos = vertices[i];
-			lineRender.SetPosition(i,pos);
-		}
-		lineRender.SetWidth(0.1f,0.1f);
 	}
+	
+	void RenderLine(){
+		
+	}
+	
 	 
 }
