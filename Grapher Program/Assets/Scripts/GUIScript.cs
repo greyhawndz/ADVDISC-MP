@@ -17,6 +17,7 @@ public class GUIScript : MonoBehaviour {
     
     //GameObject
     public LineManager lineManager;
+    public ParticleGrapher particleGrapher;
     
 	//variables to choose which window, you can ignore these
 	public Rect windowRect;
@@ -448,6 +449,9 @@ public class GUIScript : MonoBehaviour {
 			print("X: "+parabolaCenterX);
 			print("Y: "+parabolaCenterY);
 			print("M: "+parabolaMagnitude);
+			
+			Vector3 vertex = new Vector3(parabolaCenterX, parabolaCenterY, -1);
+			particleGrapher.RenderParabola(vertex, parabolaMagnitude);
 
 			clear ();
 		}

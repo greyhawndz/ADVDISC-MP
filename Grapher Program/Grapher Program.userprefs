@@ -1,9 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LineManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ParticleGrapher.cs">
     <Files>
-      <File FileName="Assets\Scripts\LineManager.cs" Line="21" Column="34" />
-      <File FileName="Assets\Scripts\GUIScript.cs" Line="177" Column="29" />
+      <File FileName="Assets\Scripts\ParticleGrapher.cs" Line="41" Column="22" />
+      <File FileName="Assets\Scripts\GUIScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Grapher1.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LineManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CameraController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

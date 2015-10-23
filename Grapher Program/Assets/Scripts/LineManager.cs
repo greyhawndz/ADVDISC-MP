@@ -23,6 +23,8 @@ public class LineManager : MonoBehaviour {
 		lineRender.SetWidth(0.1f,0.1f);
 	}
 	
+	
+	
 	public void RemoveLine(){
 		if(vertices != null){
 			Debug.Log ("Hi");
