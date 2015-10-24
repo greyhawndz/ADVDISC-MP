@@ -308,6 +308,8 @@ public class GUIScript : MonoBehaviour {
 			percentageBox ="";
 			clear ();
 			print(percentage);
+            operation.scale((float) (percentage / 100.0));
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			percentageBox ="";
