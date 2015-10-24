@@ -179,6 +179,7 @@ public class GUIScript : MonoBehaviour {
 			clear ();
 			eraseFigure ();
 			lineManager.RemoveLine();
+            lineManager2.RemoveLine();
 		}
 			
 		if (GUI.Button (new Rect (180, 160, 80, 30), "Reflect")) {
@@ -252,15 +253,15 @@ public class GUIScript : MonoBehaviour {
 			print ("Reflected Across X");
 			clear ();
             operation.reflect(0);
-            lineManager2.RenderLine(operation.NewVertices, new Color32(0, 63, 247, 255));
-		}
+            drawLine(operation.NewVertices);
+        }
 		
 		if (GUI.Button (new Rect (75, 100, 100, 30), "Along Y Axis")) {
 			reflectY = true;
 			print ("Reflected Across Y");
 			clear ();
             operation.reflect(1);
-            lineManager2.RenderLine(operation.NewVertices, new Color32(0, 63, 247, 255));
+            drawLine(operation.NewVertices);
         }
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 
@@ -281,14 +282,17 @@ public class GUIScript : MonoBehaviour {
 		  degreeBox ="";
 		  print(degrees);
 		  clear ();
+          operation.rotate(0, degrees);
+          drawLine(operation.NewVertices);
 		}
 		
 		if (GUI.Button (new Rect (65, 150, 130, 30), "Counterclockwise")) {
 			degrees =int.Parse(degreeBox);
-			degrees = degrees *(-1);
 			degreeBox ="";
 			print(degrees);
 			clear ();
+            operation.rotate(1, degrees);
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			clear ();
@@ -341,7 +345,7 @@ public class GUIScript : MonoBehaviour {
 			print (yTranslate);
 			clear ();
             operation.translate(xTranslate, yTranslate);
-            lineManager2.RenderLine(operation.NewVertices, new Color32(0, 63, 247, 255));
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			xTranslateBox ="";
@@ -351,6 +355,11 @@ public class GUIScript : MonoBehaviour {
 		}
 		GUI.DragWindow();
 	}
+
+    private void drawLine( Vector3[] vertices )
+    {
+        lineManager2.RenderLine(vertices, new Color32(0, 63, 247, 255));
+    }
 
 	public void setObjectFunction(int windowID) {
 

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MatrixOperation : MonoBehaviour
 {
+    private Vector2[] multiplier;
     private Vector3[] vertices;
     private Vector3[] newVertices;
     public LineManager lineManager;
@@ -26,19 +27,58 @@ public class MatrixOperation : MonoBehaviour
         newVertices = null;
     }
 
-    public void translate(int x, int y)
+    public void reflect(int operation)
     {
+        /*****
+        operation values:
+        0 - Along X Axis
+        1 - Along Y Axis
+        *****/
         vertices = lineManager.Vertices;
-        newVertices = new Vector3[vertices.Length];
+        multiplier = new Vector2[2];
 
-        for(int i = 0; i < vertices.Length; i++)
+        if (operation == 0)
         {
-            newVertices[i].x = vertices[i].x + x;
-            newVertices[i].y = vertices[i].y + y;
+            multiplier[0] = new Vector2(1, 0);
+            multiplier[1] = new Vector2(0, -1);
         }
+        else if (operation == 1)
+        {
+            multiplier[0] = new Vector2(-1, 0);
+            multiplier[1] = new Vector2(0, 1);
+        }
+
+        multiply(multiplier);
     }
 
-    public void rotate()
+    public void rotate( int operation, int degrees )
+    {
+        /*****
+        operation values:
+        0 - clockwise
+        1 - counter-clockwise
+        *****/
+
+        vertices = lineManager.Vertices;
+        multiplier = new Vector2[2];
+
+        float angle = (float) (Mathf.PI * degrees / 180.0);
+
+        if (operation == 0)
+        {
+            multiplier[0] = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            multiplier[1] = new Vector2(-Mathf.Sin(angle), Mathf.Cos(angle));
+        }
+        else if (operation == 1)
+        {
+            multiplier[0] = new Vector2(Mathf.Cos(angle), -Mathf.Sin(angle));
+            multiplier[1] = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
+        }
+
+        multiply(multiplier);
+    }
+
+    public void scale()
     {
 
     }
@@ -48,33 +88,16 @@ public class MatrixOperation : MonoBehaviour
 
     }
 
-    public void scale()
+    public void translate(int x, int y)
     {
-
-    }
-
-    public void reflect(int operation)
-    {
-        /*****
-        operation values:
-        0 - Along X Axis
-        1 - Along Y Axis
-        *****/
         vertices = lineManager.Vertices;
-        Vector2[] multiplier = new Vector2[2];
+        newVertices = new Vector3[vertices.Length];
 
-        if ( operation == 0 )
+        for (int i = 0; i < vertices.Length; i++)
         {
-            multiplier[0] = new Vector2(1, 0);
-            multiplier[1] = new Vector2(0, -1);
+            newVertices[i].x = vertices[i].x + x;
+            newVertices[i].y = vertices[i].y + y;
         }
-        else if( operation == 1 )
-        {
-            multiplier[0] = new Vector2(-1, 0);
-            multiplier[1] = new Vector2(0, 1);
-        }
-
-        multiply(multiplier);
     }
 
     void multiply(Vector2[] multiplier)
