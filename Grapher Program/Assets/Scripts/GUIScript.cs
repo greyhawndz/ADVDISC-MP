@@ -46,7 +46,8 @@ public class GUIScript : MonoBehaviour {
 	//Variables used for temporary storage, you can ignore these
 	public string equationBox;
 	public string degreeBox;
-	public string percentageBox;
+	public string percentageScaleBoxX;
+	public string percentageScaleBoxY;
 	public string xTranslateBox;
 	public string yTranslateBox;
 	public string ellipseCenterBoxX;
@@ -78,12 +79,14 @@ public class GUIScript : MonoBehaviour {
 	/*============Variables with the usable data====================*/
 	VectorData[] vectorArray;
     Vector3[] vectorArray2;
-	public int percentage;
+	public int percentageScaleX;
+	public int percentageScaleY;
 	public int degrees;
 	public int xTranslate;
 	public int yTranslate;
 	public string equation;
 	public int shearAmount;
+	public bool isShearVertical;
 
 	public int ellipseCenterX;
 	public int ellipseCenterY;
@@ -124,7 +127,8 @@ public class GUIScript : MonoBehaviour {
 	void eraseFigure()
 	{
 		vectorArray =null;
-		percentage= 0;
+		percentageScaleX= 0;
+		percentageScaleY= 0;
 		degrees = 0;
 		xTranslate = 0;
 		yTranslate = 0;
@@ -323,17 +327,26 @@ public class GUIScript : MonoBehaviour {
 		GUI.DragWindow();
 	}
 	public void scale(int windowID) {
-		GUI.Label(new Rect(65, 35, 130, 30), "% Scale");
-		percentageBox = GUI.TextArea(new Rect(65, 55, 130, 30), percentageBox);
-		percentageBox = rgx.Replace(percentageBox, "");
-		if (GUI.Button (new Rect (65, 150, 130, 30), "Confirm")) {
-			percentage =int.Parse(percentageBox);
-			percentageBox ="";
+		GUI.Label(new Rect(65, 35, 130, 30), "% Scale X");
+		percentageScaleBoxX = GUI.TextArea(new Rect(65, 55, 130, 30), percentageScaleBoxX);
+		percentageScaleBoxX = rgx.Replace(percentageScaleBoxX, "");
+		GUI.Label(new Rect(65, 90, 130, 30), "% Scale Y");
+		percentageScaleBoxY = GUI.TextArea(new Rect(65, 110, 130, 30), percentageScaleBoxY);
+		percentageScaleBoxY = rgx.Replace(percentageScaleBoxY, "");
+		if (GUI.Button (new Rect (65, 155, 130, 30), "Confirm")) {
+			percentageScaleX =int.Parse(percentageScaleBoxX);
+			percentageScaleBoxX ="";
+
+
+			percentageScaleY =int.Parse(percentageScaleBoxY);
+			percentageScaleBoxY ="";
 			clear ();
-			print(percentage);
+			print(percentageScaleX);
+
+			print(percentageScaleY);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
-			percentageBox ="";
+			percentageScaleBoxX ="";
 			clear ();
 		}
 		GUI.DragWindow();
@@ -343,9 +356,17 @@ public class GUIScript : MonoBehaviour {
 		GUI.Label(new Rect(65, 35, 130, 30), "Shear");
 		shearBox = GUI.TextArea(new Rect(65, 55, 130, 30), shearBox);
 		shearBox = rgx.Replace(shearBox, "");
-		if (GUI.Button (new Rect (65, 150, 130, 30), "Confirm")) {
+		if (GUI.Button (new Rect (65, 150, 130, 30), "Horizontal")&&(shearBox!="")) {
 			shearAmount = int.Parse(shearBox);
 			shearBox="";
+			isShearVertical = false;
+			print (shearAmount);
+			clear ();
+		}
+		if (GUI.Button (new Rect (65, 190, 130, 30), "Vertical")&&(shearBox!="")) {
+			shearAmount = int.Parse(shearBox);
+			shearBox="";
+			isShearVertical = true;
 			print (shearAmount);
 			clear ();
 		}
