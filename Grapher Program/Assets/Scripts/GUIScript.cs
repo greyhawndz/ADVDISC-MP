@@ -25,6 +25,7 @@ public class GUIScript : MonoBehaviour {
 	public bool setObjectClicked = false;
 	public bool setVerticesClicked = false;
 	public bool setEllipseClicked = false;
+	public bool setHyperbolaClicked = false;
 	public bool setParabolaClicked = false;
 	public bool scaleClicked = false;
 	public bool reflectClicked = false;
@@ -45,6 +46,12 @@ public class GUIScript : MonoBehaviour {
 	public string ellipseCenterBoxY;
 	public string ellipseWidthBox;
 	public string ellipseHeightBox;
+
+	public string hyperbolaCenterBoxX;
+	public string hyperbolaCenterBoxY;
+	public string hyperbolaWidthBox;
+	public string hyperbolaHeightBox;
+	public bool isHorizontalHyperBolaBox;
 
 	public string parabolaCenterBoxX;
 	public string parabolaCenterBoxY;
@@ -76,6 +83,12 @@ public class GUIScript : MonoBehaviour {
 	public int ellipseHeight;
 	public int ellipseWidth;
 
+	public int hyperbolaCenterX;
+	public int hyperbolaCenterY;
+	public int hyperbolaWidth;
+	public int hyperbolaHeight;
+	public bool isHorizontalHyperBola;
+
 	public int parabolaCenterX;
 	public int parabolaCenterY;
 	public int parabolaMagnitude;
@@ -95,6 +108,7 @@ public class GUIScript : MonoBehaviour {
 		reflectClicked = false;
 		setEllipseClicked = false;
 		setParabolaClicked = false;
+		setHyperbolaClicked = false;
 		rotateClicked = false;
 		shearClicked = false;
 		translateClicked = false;
@@ -114,6 +128,11 @@ public class GUIScript : MonoBehaviour {
 		ellipseCenterY = 0;
 	    ellipseHeight = 0;
 		ellipseWidth = 0;
+
+		hyperbolaCenterX = 0;
+		hyperbolaWidth = 0;
+		hyperbolaHeight = 0;
+		isHorizontalHyperBola = false;
 		
 		parabolaCenterX = 0;
 		parabolaCenterY = 0;
@@ -216,6 +235,9 @@ public class GUIScript : MonoBehaviour {
 		}
 		if (setEllipseClicked) {
 			windowRect = GUI.Window (0, windowRect, setEllipse, "Set Ellipse");
+		}
+		if (setHyperbolaClicked) {
+			windowRect = GUI.Window (0, windowRect, setHyperbola, "Set Hyperbola");
 		}
 		if (setParabolaClicked) {
 			windowRect = GUI.Window (0, windowRect, setParabola, "Set Parabola");
@@ -363,6 +385,10 @@ public class GUIScript : MonoBehaviour {
 			setParabolaClicked = true;
 			setParabola(0);
 		}
+		if (GUI.Button (new Rect (75, 170, 100, 30), "Hyperbola")) {
+			setHyperbolaClicked = true;
+			setHyperbola(0);
+		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			clear ();
 		}
@@ -423,7 +449,45 @@ public class GUIScript : MonoBehaviour {
 		GUI.DragWindow();
 	}
 
-
+	public void setHyperbola(int windowID)
+	{	
+		GUI.Label(new Rect(50, 40, 130, 30), "X");
+		hyperbolaCenterBoxX = GUI.TextArea(new Rect(65, 35, 130, 30), hyperbolaCenterBoxX);
+		hyperbolaCenterBoxX = rgx.Replace(hyperbolaCenterBoxX, "");
+		GUI.Label(new Rect(50, 80, 130, 30), "Y");
+		hyperbolaCenterBoxY = GUI.TextArea(new Rect(65, 75, 130, 30), hyperbolaCenterBoxY);
+		hyperbolaCenterBoxY = rgx.Replace(hyperbolaCenterBoxY, "");
+		GUI.Label(new Rect(50, 120, 130, 30), "H");
+		hyperbolaHeightBox = GUI.TextArea(new Rect(65, 115, 130, 30), hyperbolaHeightBox);
+		hyperbolaHeightBox = rgx.Replace(hyperbolaHeightBox, "");
+		GUI.Label(new Rect(50, 160, 130, 30), "W");
+		hyperbolaWidthBox = GUI.TextArea(new Rect(65, 155, 130, 30), hyperbolaWidthBox);
+		hyperbolaWidthBox = rgx.Replace(hyperbolaWidthBox, "");
+		
+		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
+			hyperbolaCenterX=int.Parse(hyperbolaCenterBoxX);
+			hyperbolaCenterY=int.Parse(hyperbolaCenterBoxY);
+			hyperbolaHeight=int.Parse(hyperbolaHeightBox);
+			hyperbolaWidth=int.Parse(hyperbolaWidthBox);
+			hyperbolaCenterBoxX = "";
+			hyperbolaCenterBoxY= "";
+			hyperbolaHeightBox= "";
+			hyperbolaWidthBox= "";
+			print("X: "+hyperbolaCenterX);
+			print("Y: "+hyperbolaCenterY);
+			print("H: "+hyperbolaHeight);
+			print("W: "+hyperbolaWidth);
+			clear ();
+		}
+		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
+			hyperbolaCenterBoxX = "";
+			hyperbolaCenterBoxY= "";
+			hyperbolaHeightBox= "";
+			hyperbolaWidthBox= "";
+			clear ();
+		}
+		GUI.DragWindow();
+	}
 	public void setParabola(int windowID)
 	{	
 		GUI.Label(new Rect(50, 40, 130, 30), "X");
