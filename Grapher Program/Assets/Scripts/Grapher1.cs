@@ -32,7 +32,7 @@ public class Grapher1 : MonoBehaviour {
 		FunctionDelegate f = functionDelegates[(int) function];
 		for (int i = 0; i < resolution; i++) {
 			Vector3 p = points[i].position;
-			p.y = 3 * f(p.x);
+			p.y = f(p.x);
 			points[i].position = p;
 			Color c = points[i].color;
 			c.g = p.y;
@@ -52,7 +52,7 @@ public class Grapher1 : MonoBehaviour {
 		The first point should be placed at 0 and the last should be placed at 1. 
 		All other points should be placed in between. 
 		So the distance, or X increment, between two points is 1 / (resolution - 1).*/
-		float increment = 2f / (resolution - 1);
+		float increment = 7f / (resolution - 1);
 		for (int i = 0; i < resolution; i++) {
 			float x = i * increment;
 			points[i].position = new Vector3(x, 0, 0f);
