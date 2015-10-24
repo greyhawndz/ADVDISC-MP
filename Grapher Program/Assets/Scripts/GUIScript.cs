@@ -101,6 +101,7 @@ public class GUIScript : MonoBehaviour {
 		shearClicked = false;
 		translateClicked = false;
 		setEquationClicked = false;
+        operation.clear();
 	}
 	void eraseFigure()
 	{
@@ -251,7 +252,7 @@ public class GUIScript : MonoBehaviour {
 			print ("Reflected Across X");
 			clear ();
             operation.reflect(0);
-            lineManager2.RenderLine(operation.Vertices, new Color32(0, 63, 247, 255));
+            lineManager2.RenderLine(operation.NewVertices, new Color32(0, 63, 247, 255));
 		}
 		
 		if (GUI.Button (new Rect (75, 100, 100, 30), "Along Y Axis")) {
@@ -259,7 +260,7 @@ public class GUIScript : MonoBehaviour {
 			print ("Reflected Across Y");
 			clear ();
             operation.reflect(1);
-            lineManager2.RenderLine(operation.Vertices, new Color32(0, 63, 247, 255));
+            lineManager2.RenderLine(operation.NewVertices, new Color32(0, 63, 247, 255));
         }
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 
@@ -339,6 +340,8 @@ public class GUIScript : MonoBehaviour {
 			print (xTranslate);
 			print (yTranslate);
 			clear ();
+            operation.translate(xTranslate, yTranslate);
+            lineManager2.RenderLine(operation.NewVertices, new Color32(0, 63, 247, 255));
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			xTranslateBox ="";

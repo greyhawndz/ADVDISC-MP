@@ -4,13 +4,14 @@ using System.Collections;
 public class MatrixOperation : MonoBehaviour
 {
     private Vector3[] vertices;
+    private Vector3[] newVertices;
     public LineManager lineManager;
 
-    public Vector3[] Vertices
+    public Vector3[] NewVertices
     {
         get
         {
-            return vertices;
+            return newVertices;
         }
     }
 
@@ -20,9 +21,21 @@ public class MatrixOperation : MonoBehaviour
         
     }
 
-    public void translate()
+    public void clear()
     {
+        newVertices = null;
+    }
 
+    public void translate(int x, int y)
+    {
+        vertices = lineManager.Vertices;
+        newVertices = new Vector3[vertices.Length];
+
+        for(int i = 0; i < vertices.Length; i++)
+        {
+            newVertices[i].x = vertices[i].x + x;
+            newVertices[i].y = vertices[i].y + y;
+        }
     }
 
     public void rotate()
@@ -66,16 +79,14 @@ public class MatrixOperation : MonoBehaviour
 
     void multiply(Vector2[] multiplier)
     {
-        print("KERRBIE MULTIPLY" + Vertices.Length);
-        Vector3[] newMatrix = new Vector3[Vertices.Length];
+        print("KERRBIE MULTIPLY" + vertices.Length);
+        newVertices = new Vector3[vertices.Length];
 
-        for (int i = 0; i < Vertices.Length; i++)
+        for (int i = 0; i < vertices.Length; i++)
         {
-            newMatrix[i].x = Vertices[i].x * multiplier[0].x + Vertices[i].y * multiplier[1].x;
-            newMatrix[i].y = Vertices[i].x * multiplier[0].y + Vertices[i].y * multiplier[1].y;
-            newMatrix[i].z = Vertices[i].z;
+            newVertices[i].x = vertices[i].x * multiplier[0].x + vertices[i].y * multiplier[1].x;
+            newVertices[i].y = vertices[i].x * multiplier[0].y + vertices[i].y * multiplier[1].y;
+            newVertices[i].z = vertices[i].z;
         }
-
-        vertices = newMatrix;
     }
 }
