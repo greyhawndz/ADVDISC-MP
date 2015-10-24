@@ -6,6 +6,16 @@ using System.Collections.Generic;
 public class LineManager : MonoBehaviour {
 	private LineRenderer lineRender;
 	private Vector3[] vertices;
+
+    public Vector3[] Vertices
+    {
+        get
+        {
+            return vertices;
+        }
+    }
+
+
 	// Use this for initialization
 	void Start () {
 		lineRender = GetComponent<LineRenderer>();
@@ -13,7 +23,7 @@ public class LineManager : MonoBehaviour {
 	
 	
 	
-	public void RenderLine(Vector3[] data){
+	public void RenderLine(Vector3[] data, Color color){
 		vertices = data;
 		lineRender.SetVertexCount(vertices.Length);
 		for(int i = 0; i < vertices.Length; i++){
@@ -21,6 +31,7 @@ public class LineManager : MonoBehaviour {
 			lineRender.SetPosition(i,pos);
 		}
 		lineRender.SetWidth(0.1f,0.1f);
+        lineRender.SetColors(color, color);
 	}
 	
 	

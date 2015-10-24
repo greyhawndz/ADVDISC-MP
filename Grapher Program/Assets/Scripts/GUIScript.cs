@@ -17,8 +17,10 @@ public class GUIScript : MonoBehaviour {
     
     //GameObject
     public LineManager lineManager;
+    public LineManager lineManager2;
     public ParticleGrapher particleGrapher;
-    
+    public MatrixOperation operation;
+
 	//variables to choose which window, you can ignore these
 	public Rect windowRect;
 	public bool clicked = false;
@@ -248,13 +250,17 @@ public class GUIScript : MonoBehaviour {
 		{reflectX = true;
 			print ("Reflected Across X");
 			clear ();
+            operation.reflect(0);
+            lineManager2.RenderLine(operation.Vertices, new Color32(0, 63, 247, 255));
 		}
 		
 		if (GUI.Button (new Rect (75, 100, 100, 30), "Along Y Axis")) {
 			reflectY = true;
 			print ("Reflected Across Y");
 			clear ();
-		}
+            operation.reflect(1);
+            lineManager2.RenderLine(operation.Vertices, new Color32(0, 63, 247, 255));
+        }
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 
 			clear ();
@@ -479,7 +485,7 @@ public class GUIScript : MonoBehaviour {
 				print (vectorArray.Length);
 			}
             
-            lineManager.RenderLine(vectorArray2);
+            lineManager.RenderLine(vectorArray2, new Color32(19, 255, 0, 255));
 
 
 		}
