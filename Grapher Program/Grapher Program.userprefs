@@ -1,9 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GUIScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LineManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\GUIScript.cs" Line="333" Column="3" />
-      <File FileName="Assets\Scripts\ParticleGrapher.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Grapher1.cs" Line="75" Column="44" />
+      <File FileName="Assets\Scripts\GUIScript.cs" Line="505" Column="32" />
+      <File FileName="Assets\Scripts\ParticleGrapher.cs" Line="68" Column="33" />
+      <File FileName="Assets\Scripts\LineManager.cs" Line="48" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
