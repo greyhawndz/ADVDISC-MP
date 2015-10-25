@@ -35,6 +35,7 @@ public class GUIScript : MonoBehaviour {
 	public bool clicked = false;
 	public bool setObjectClicked = false;
 	public bool setVerticesClicked = false;
+	public bool setPointClicked = false;
 	public bool setEllipseClicked = false;
 	public bool setParabolaClicked = false;
 	public bool setHyperbolaClicked=false;
@@ -59,6 +60,9 @@ public class GUIScript : MonoBehaviour {
 	public string ellipseCenterBoxY;
 	public string ellipseWidthBox;
 	public string ellipseHeightBox;
+
+	public string pointBoxX;
+	public string pointBoxY;
 
 	public string hyperbolaCenterBoxX;
 	public string hyperbolaCenterBoxY;
@@ -99,6 +103,9 @@ public class GUIScript : MonoBehaviour {
 	public int ellipseHeight;
 	public int ellipseWidth;
 
+	public int pointX;
+	public int pointY;
+
 	public int hyperbolaCenterX;
 	public int hyperbolaCenterY;
 	public int hyperbolaHeight;
@@ -116,6 +123,7 @@ public class GUIScript : MonoBehaviour {
 	void clear()
 	{
 		setObjectClicked = false;
+		setPointClicked = false;
 		setVerticesClicked = false;
 		scaleClicked = false;
 		reflectClicked = false;
@@ -144,7 +152,10 @@ public class GUIScript : MonoBehaviour {
 		ellipseCenterY = 0;
 	    ellipseHeight = 0;
 		ellipseWidth = 0;
-		
+
+		pointX = 0;
+		pointY = 0;
+
 		parabolaCenterX = 0;
 		parabolaCenterY = 0;
 		parabolaMagnitude = 0;
@@ -245,7 +256,7 @@ public class GUIScript : MonoBehaviour {
 			translateClicked = true;
 		}
 
-		formulaBoxContent = GUI.TextArea (new Rect (15, 240, 300, 300), formulaBoxContent);
+		GUI.TextArea (new Rect (15, 240, 300, 300), formulaBoxContent);
         
 		if (GUI.Button (new Rect (200, 550, 100, 30), "Quit")) {
 			Application.Quit();
@@ -258,6 +269,10 @@ public class GUIScript : MonoBehaviour {
 		}
 		if (setVerticesClicked) {
 			windowRect = GUI.Window (0, windowRect, setVerticesFunction, "Set Vertices");
+		}
+
+		if (setPointClicked) {
+			windowRect = GUI.Window (0, windowRect, setPoint, "Set Point");
 		}
 		if (setEllipseClicked) {
 			windowRect = GUI.Window (0, windowRect, setEllipse, "Set Ellipse");
@@ -536,9 +551,44 @@ public class GUIScript : MonoBehaviour {
 			setHyperbolaClicked = true;
 			setHyperbola(0);
 		}
+		if (GUI.Button (new Rect (75, 205, 100, 30), "Point")) {
+			
+			setPointClicked = true;
+			setPoint(0);
+		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			clear ();
 		}
+		GUI.DragWindow();
+	}
+
+	public void setPoint(int windowID) {
+		GUI.Label(new Rect(50, 40, 130, 30), "X");
+		pointBoxX = GUI.TextArea(new Rect(85, 35, 60, 20), pointBoxX);
+		pointBoxX = rgx.Replace(pointBoxX, "");
+		GUI.Label(new Rect(50, 65, 130, 30), "Y");
+		pointBoxY = GUI.TextArea(new Rect(85, 60, 60, 20), pointBoxY);
+		pointBoxY = rgx.Replace(pointBoxY, "");
+		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
+
+			clear ();
+
+		}
+		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
+
+			pointX = int.Parse(pointBoxX);
+			pointY = int.Parse (pointBoxY);
+
+			pointBoxX = "";
+			pointBoxY = "";
+			print (pointX);
+			print (pointY);
+			clear ();
+								
+				}
+		
+		
+		
 		GUI.DragWindow();
 	}
 	public void setEquation(int windowID)
@@ -614,11 +664,29 @@ public class GUIScript : MonoBehaviour {
 		hyperbolaWidthBox = GUI.TextArea(new Rect(65, 155, 130, 30), hyperbolaWidthBox);
 		hyperbolaWidthBox = rgx.Replace(hyperbolaWidthBox, "");
 		
-		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
+		if (GUI.Button (new Rect (35, 200, 80, 30), "Vertical")) {
 			hyperbolaCenterX=int.Parse(hyperbolaCenterBoxX);
 			hyperbolaCenterY=int.Parse(hyperbolaCenterBoxY);
 			hyperbolaHeight=int.Parse(hyperbolaHeightBox);
 			hyperbolaWidth=int.Parse(hyperbolaWidthBox);
+			hyperbolaIsVertical = true;
+			hyperbolaCenterBoxX = "";
+			hyperbolaCenterBoxY= "";
+			hyperbolaHeightBox= "";
+			hyperbolaWidthBox= "";
+			print("X: "+hyperbolaCenterX);
+			print("Y: "+hyperbolaCenterY);
+			print("H: "+hyperbolaHeight);
+			print("W: "+hyperbolaWidth);
+			shape = Shapes.Conic;
+			clear ();
+		}
+		if (GUI.Button (new Rect (135, 200, 80, 30), "Horizontal")) {
+			hyperbolaCenterX=int.Parse(hyperbolaCenterBoxX);
+			hyperbolaCenterY=int.Parse(hyperbolaCenterBoxY);
+			hyperbolaHeight=int.Parse(hyperbolaHeightBox);
+			hyperbolaWidth=int.Parse(hyperbolaWidthBox);
+			hyperbolaIsVertical = false;
 			hyperbolaCenterBoxX = "";
 			hyperbolaCenterBoxY= "";
 			hyperbolaHeightBox= "";
