@@ -5,7 +5,8 @@ public class CameraController : MonoBehaviour {
 	public float moveSpeed = 0.6f;
 	public float scrollSpeed = 15f;
 	//private float cameraDistance = -10;
-	
+	private float xBound;
+	private float yBound;
 	
 	// Update is called once per frame
 	void Update () {
@@ -17,6 +18,7 @@ public class CameraController : MonoBehaviour {
 		if(Input.GetKey(KeyCode.W)){
 		Debug.Log("W pressed");
 			this.transform.position += Vector3.up * moveSpeed * Time.deltaTime;
+			//this.transform.position.x = Mathf.Clamp(this.transform.position.x, -150, 150);
 		}
 		if(Input.GetKey(KeyCode.S)){
 			this.transform.position += Vector3.down * moveSpeed * Time.deltaTime;

@@ -1,11 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LineManager.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CameraController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Grapher1.cs" Line="75" Column="44" />
-      <File FileName="Assets\Scripts\GUIScript.cs" Line="505" Column="32" />
-      <File FileName="Assets\Scripts\ParticleGrapher.cs" Line="68" Column="33" />
-      <File FileName="Assets\Scripts\LineManager.cs" Line="48" Column="37" />
+      <File FileName="Assets\Scripts\LineManager.cs" Line="93" Column="34" />
+      <File FileName="Assets\Scripts\GUIScript.cs" Line="594" Column="23" />
+      <File FileName="Assets\Scripts\CameraController.cs" Line="21" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

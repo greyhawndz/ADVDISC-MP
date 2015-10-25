@@ -591,10 +591,10 @@ public class GUIScript : MonoBehaviour {
 			print("X: "+parabolaCenterX);
 			print("Y: "+parabolaCenterY);
 			print("M: "+parabolaMagnitude);
-			shape = Shapes.Conic;
+			shape = Shapes.Line;
 			Vector3 vertex = new Vector3(parabolaCenterX, parabolaCenterY, -1);
-			particleGrapher.RenderParabola(vertex, parabolaMagnitude);
-
+			//particleGrapher.RenderParabola(vertex, parabolaMagnitude);
+			lineManager.RenderParabola(51,parabolaMagnitude, vertex);
 			clear ();
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
