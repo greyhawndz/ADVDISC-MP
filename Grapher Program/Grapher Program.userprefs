@@ -1,9 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CameraController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ParticleGrapher.cs">
     <Files>
+      <File FileName="Assets\Scripts\LineManager.cs" Line="121" Column="43" />
       <File FileName="Assets\Scripts\CameraController.cs" Line="54" Column="42" />
-      <File FileName="..\..\..\Unity Projects\Laser Defender\Assets\Scripts\PlayerController.cs" Line="26" Column="32" />
+      <File FileName="Assets\Scripts\GUIScript.cs" Line="588" Column="25" />
+      <File FileName="Assets\Scripts\ParticleGrapher.cs" Line="11" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

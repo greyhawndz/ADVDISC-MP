@@ -115,6 +115,7 @@ public class GUIScript : MonoBehaviour {
 	public int parabolaCenterX;
 	public int parabolaCenterY;
 	public int parabolaMagnitude;
+	public bool parabolaIsVertical;
 
 	public string formulaBoxContent;
 	public bool reflectX = false;
@@ -159,6 +160,7 @@ public class GUIScript : MonoBehaviour {
 		parabolaCenterX = 0;
 		parabolaCenterY = 0;
 		parabolaMagnitude = 0;
+		parabolaIsVertical = false;
 
 		hyperbolaCenterX = 0;
 		hyperbolaCenterY = 0;
@@ -583,6 +585,8 @@ public class GUIScript : MonoBehaviour {
 			pointBoxY = "";
 			print (pointX);
 			print (pointY);
+			shape = Shapes.Conic;
+			particleGrapher.RenderPoint(new Vector3(pointX,pointY,0),new Color(19,255,0,255));
 			clear ();
 								
 				}
@@ -678,7 +682,8 @@ public class GUIScript : MonoBehaviour {
 			print("Y: "+hyperbolaCenterY);
 			print("H: "+hyperbolaHeight);
 			print("W: "+hyperbolaWidth);
-			shape = Shapes.Conic;
+			shape = Shapes.Line;
+			lineManager.RenderHyperbola(new Vector3(hyperbolaCenterX,hyperbolaCenterY,0),hyperbolaHeight,hyperbolaWidth);
 			clear ();
 		}
 		if (GUI.Button (new Rect (135, 200, 80, 30), "Horizontal")) {
@@ -695,7 +700,8 @@ public class GUIScript : MonoBehaviour {
 			print("Y: "+hyperbolaCenterY);
 			print("H: "+hyperbolaHeight);
 			print("W: "+hyperbolaWidth);
-			shape = Shapes.Conic;
+			shape = Shapes.Line;
+			lineManager.RenderHyperbolaHorizontal(new Vector3(hyperbolaCenterX,hyperbolaCenterY,0),hyperbolaWidth,hyperbolaHeight);
 			clear ();
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
@@ -721,15 +727,36 @@ public class GUIScript : MonoBehaviour {
 		parabolaMagnitudeBox = rgx.Replace(parabolaMagnitudeBox, "");
 
 		
-		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
+		if (GUI.Button (new Rect (35, 200, 80, 30), "Horizontal")) {
 			parabolaCenterX=int.Parse(parabolaCenterBoxX);
 			parabolaCenterY=int.Parse(parabolaCenterBoxY);
 			parabolaMagnitude=int.Parse(parabolaMagnitudeBox);
-
+			
 			parabolaCenterBoxX = "";
 			parabolaCenterBoxY= "";
 			parabolaMagnitudeBox= "";
-	
+			parabolaIsVertical= false;
+			
+			print("X: "+parabolaCenterX);
+			print("Y: "+parabolaCenterY);
+			print("M: "+parabolaMagnitude);
+			shape = Shapes.Line;
+			Vector3 vertex = new Vector3(parabolaCenterX, parabolaCenterY, -1);
+			//particleGrapher.RenderParabola(vertex, parabolaMagnitude);
+			lineManager.RenderParabolaHorizontal(51,parabolaMagnitude, vertex);
+			clear ();
+		}
+		
+		if (GUI.Button (new Rect (135, 200, 80, 30), "Vertical")) {
+			parabolaCenterX=int.Parse(parabolaCenterBoxX);
+			parabolaCenterY=int.Parse(parabolaCenterBoxY);
+			parabolaMagnitude=int.Parse(parabolaMagnitudeBox);
+			
+			parabolaCenterBoxX = "";
+			parabolaCenterBoxY= "";
+			parabolaMagnitudeBox= "";
+			parabolaIsVertical= true;
+			
 			print("X: "+parabolaCenterX);
 			print("Y: "+parabolaCenterY);
 			print("M: "+parabolaMagnitude);
