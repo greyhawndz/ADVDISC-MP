@@ -282,6 +282,7 @@ public class GUIScript : MonoBehaviour {
 		{reflectX = true;
 			print ("Reflected Across X");
 			clear ();
+            formulaBoxContent = "Reflect -> along the X Axis\n\n";
             operation.reflect(0);
             drawLine(operation.NewVertices);
         }
@@ -290,6 +291,7 @@ public class GUIScript : MonoBehaviour {
 			reflectY = true;
 			print ("Reflected Across Y");
 			clear ();
+            formulaBoxContent = "Reflect -> along the Y Axis\n\n";
             operation.reflect(1);
             drawLine(operation.NewVertices);
         }
@@ -308,12 +310,14 @@ public class GUIScript : MonoBehaviour {
 		degreeBox = GUI.TextArea(new Rect(65, 55, 130, 30), degreeBox);
 		degreeBox = rgx.Replace(degreeBox, "");
 		if (GUI.Button(new Rect(65, 115, 130, 30), "CounterClockwise"))
-		{ degrees =int.Parse(degreeBox);
-		  degreeBox ="";
-		  print(degrees);
-		  clear ();
-          operation.rotate(1, degrees);
-          drawLine(operation.NewVertices);
+		{
+            degrees =int.Parse(degreeBox);
+		    degreeBox ="";
+		    print(degrees);
+		    clear ();
+            formulaBoxContent = "Rotate -> " + degrees + " degrees CounterClockwise\n\n";
+            operation.rotate(1, degrees);
+            drawLine(operation.NewVertices);
 		}
 		
 		if (GUI.Button (new Rect (65, 150, 130, 30), "Clockwise")) {
@@ -321,6 +325,7 @@ public class GUIScript : MonoBehaviour {
 			degreeBox ="";
 			print(degrees);
 			clear ();
+            formulaBoxContent = "Rotate -> " + degrees + " degrees Clockwise\n\n";
             operation.rotate(0, degrees);
             drawLine(operation.NewVertices);
 		}
@@ -348,6 +353,7 @@ public class GUIScript : MonoBehaviour {
 			
 			print(percentageScaleY);
 
+            formulaBoxContent = "Scale -> X: " + percentageScaleX + "%; Y: " + percentageScaleY + "%\n\n";
             operation.scale((float)(percentageScaleX / 100.0), (float)(percentageScaleY / 100.0));
             drawLine(operation.NewVertices);
 		}
@@ -368,7 +374,7 @@ public class GUIScript : MonoBehaviour {
 			isShearVertical = false;
 			print (shearAmount);
 			clear ();
-
+            formulaBoxContent = "Shear -> Horizonal by " + shearAmount + "\n\n";
             operation.shear(0, shearAmount);
             drawLine(operation.NewVertices);
 		}
@@ -378,7 +384,7 @@ public class GUIScript : MonoBehaviour {
 			isShearVertical = true;
 			print (shearAmount);
 			clear ();
-
+            formulaBoxContent = "Shear -> Vertical by " + shearAmount + "\n\n";
             operation.shear(1, shearAmount);
             drawLine(operation.NewVertices);
 		}
@@ -400,6 +406,7 @@ public class GUIScript : MonoBehaviour {
 			print (xTranslate);
 			print (yTranslate);
 			clear ();
+            formulaBoxContent = "Translate -> X: " + xTranslate + "; Y: " + yTranslate + "\n\n";
             operation.translate(xTranslate, yTranslate);
             drawLine(operation.NewVertices);
 		}
@@ -415,9 +422,10 @@ public class GUIScript : MonoBehaviour {
     private void drawLine( Vector3[] vertices )
     {
         lineManager2.RenderLine(vertices, new Color32(0, 63, 247, 255));
+        formulaBoxContent += operation.MatrixValues;
     }
 
-	public void setObjectFunction(int windowID) {
+    public void setObjectFunction(int windowID) {
 
 		if (GUI.Button(new Rect(75, 30, 100, 30), "Equation"))
 		{	

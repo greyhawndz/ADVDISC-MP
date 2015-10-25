@@ -17,6 +17,14 @@ public class MatrixOperation : MonoBehaviour
         }
     }
 
+    public string MatrixValues
+    {
+        get
+        {
+            return matrixValues;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -26,6 +34,7 @@ public class MatrixOperation : MonoBehaviour
     public void clear()
     {
         newVertices = null;
+        matrixValues = "";
     }
 
     public void reflect(int operation)
@@ -120,11 +129,18 @@ public class MatrixOperation : MonoBehaviour
         vertices = lineManager.Vertices;
         newVertices = new Vector3[vertices.Length];
 
+        //multiplier variable is used so that additional declarations won't be needed, even though nothing is being multiplied
+        multiplier = new Vector2[vertices.Length];
+
         for (int i = 0; i < vertices.Length; i++)
         {
             newVertices[i].x = vertices[i].x + x;
             newVertices[i].y = vertices[i].y + y;
+            multiplier[i].x = x;
+            multiplier[i].y = y;
         }
+
+        writeMatrixValues(multiplier, true);
     }
 
     void multiply(Vector2[] multiplier)
@@ -138,10 +154,37 @@ public class MatrixOperation : MonoBehaviour
             newVertices[i].y = vertices[i].x * multiplier[0].y + vertices[i].y * multiplier[1].y;
             newVertices[i].z = vertices[i].z;
         }
+
+        writeMatrixValues(multiplier, false);
     }
 
-    void writeMatrixValues( Vector2[] multiplier )
+    void writeMatrixValues( Vector2[] multiplier, bool isTranslation )
     {
+        matrixValues = "The Matrix\n";
+        for ( int i = 0; i < vertices.Length; i++ )
+        {
+            matrixValues += vertices[i].x.ToString() + "\t" + vertices[i].y.ToString() + "\n";
+        }
 
+        if( isTranslation )
+        {
+            matrixValues += "\nis added to the matrix\n";
+        }
+        else
+        {
+            matrixValues += "\nis multiplied to the matrix\n";
+        }
+
+        for( int j = 0; j < multiplier.Length; j++ )
+        {
+            matrixValues += multiplier[j].x.ToString() + "\t" + multiplier[j].y.ToString() + "\n";
+        }
+
+        matrixValues += "\nwhich results to\n";
+
+        for (int k = 0; k < NewVertices.Length; k++)
+        {
+            matrixValues += newVertices[k].x.ToString() + "\t" + newVertices[k].y.ToString() + "\n";
+        }
     }
 }
