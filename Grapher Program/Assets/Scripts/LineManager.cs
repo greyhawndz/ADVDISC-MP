@@ -46,12 +46,52 @@ public class LineManager : MonoBehaviour {
 			x = Mathf.Sin (Mathf.Deg2Rad * angle) * xradius + vertex.x;
 			y = Mathf.Cos (Mathf.Deg2Rad * angle) * yradius + vertex.y;
 			vertices[i] = new Vector3(x,y,z);
+			Debug.Log(vertices[i]);
 			lineRender.SetPosition (i,new Vector3(x,y,z) );
 			
 			angle += (360f / segments);
 		}
 		
 		lineRender.SetWidth(0.2f,0.2f);
+	}
+	
+	public void RenderParabola(int segments, int magnitude, Vector3 vertex){
+		Debug.Log ("Hi");
+		vertices = new Vector3[segments * 2];
+		int temp = 0;
+		int i = 0;
+		int x = (segments-1) / 2;
+		
+		float y;
+		lineRender.SetVertexCount(segments - 1);
+		/*for(int i = 50; i > vertex.x; i--){
+			y = magnitude * Mathf.Pow(i - vertex.x, 2) + vertex.y;
+			vertices[i] = new Vector3(i,y,0);
+			Debug.Log ("Pos: " +vertices[i]);
+			lineRender.SetPosition(i, new Vector3(i,y,0));
+		} */
+		
+		while(x > 0){
+			y = magnitude * Mathf.Pow(x - vertex.x, 2) + vertex.y;
+			Debug.Log ("When x = " +x +" , y = " +y);
+			vertices[i] = new Vector3(x,y,0);
+			Debug.Log ("Pos: " +vertices[i]);
+			lineRender.SetPosition (i,new Vector3(x,y,0) );
+			i++;
+			x--;
+		
+		}
+		while(x < (segments-1) / 2){
+			y = magnitude * Mathf.Pow(-x - vertex.x, 2) + vertex.y;
+			Debug.Log ("When x = " +x +" , y = " +y);
+			vertices[i] = new Vector3(-x,y,0);
+			Debug.Log ("Pos: " +vertices[i]);
+			lineRender.SetPosition (i,new Vector3(-x,y,0) );
+			i++;
+			x++;
+		}
+		lineRender.SetWidth(0.2f,0.2f);
+		
 	}
 	
 	

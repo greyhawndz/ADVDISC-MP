@@ -16,13 +16,11 @@ public class GUIScript : MonoBehaviour {
 	}
 	
 	//State of drawing
-	private enum Shapes
-    {
-        None,
+	private enum Shapes{
 		Line,
 		Conic
 	}
-	private Shapes shape = Shapes.None;
+	private Shapes shape;
     
     //GameObject
     public LineManager lineManager;
@@ -129,6 +127,7 @@ public class GUIScript : MonoBehaviour {
 		shearClicked = false;
 		translateClicked = false;
 		setEquationClicked = false;
+        operation.clear();
 	}
 	void eraseFigure()
 	{
@@ -160,10 +159,7 @@ public class GUIScript : MonoBehaviour {
 		formulaBoxContent = "";
 		reflectX = false;
 		reflectY =false;
-
-        operation.clear();
-        shape = Shapes.None;
-    }
+	}
 	// Use this for initialization
 	void Start () {
 
@@ -214,6 +210,8 @@ public class GUIScript : MonoBehaviour {
 		}
 
 		if (GUI.Button (new Rect (10, 85, 100, 30), "Erase Figure")) {
+			clear ();
+			eraseFigure ();
 			if(shape == Shapes.Line){
 				lineManager.RemoveLine();
             	lineManager2.RemoveLine();
@@ -221,9 +219,7 @@ public class GUIScript : MonoBehaviour {
             else if(shape == Shapes.Conic){
             	particleGrapher.Delete();
             }
-            clear();
-            eraseFigure();
-        }
+		}
 			
 		if (GUI.Button (new Rect (180, 160, 80, 30), "Reflect")) {
 			clear ();
@@ -295,32 +291,21 @@ public class GUIScript : MonoBehaviour {
 	public void reflect(int windowID) {
 
 		if (GUI.Button(new Rect(75, 50, 100, 30), "Along X Axis"))
-		{
-            reflectX = true;
+		{reflectX = true;
 			print ("Reflected Across X");
-
-            if (shape == Shapes.Line)
-            {
-                formulaBoxContent = "Reflect -> along the X Axis\n\n";
-                operation.reflect(0);
-                drawLine(operation.NewVertices);
-            }
-
-            clear ();
+			clear ();
+            formulaBoxContent = "Reflect -> along the X Axis\n\n";
+            operation.reflect(0);
+            drawLine(operation.NewVertices);
         }
 		
 		if (GUI.Button (new Rect (75, 100, 100, 30), "Along Y Axis")) {
 			reflectY = true;
 			print ("Reflected Across Y");
-
-            if (shape == Shapes.Line)
-            {
-                formulaBoxContent = "Reflect -> along the Y Axis\n\n";
-                operation.reflect(1);
-                drawLine(operation.NewVertices);
-            }
-
-            clear ();
+			clear ();
+            formulaBoxContent = "Reflect -> along the Y Axis\n\n";
+            operation.reflect(1);
+            drawLine(operation.NewVertices);
         }
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 
@@ -341,30 +326,20 @@ public class GUIScript : MonoBehaviour {
             degrees =int.Parse(degreeBox);
 		    degreeBox ="";
 		    print(degrees);
-
-            if (shape == Shapes.Line)
-            {
-                formulaBoxContent = "Rotate -> " + degrees + " degrees CounterClockwise\n\n";
-                operation.rotate(1, degrees);
-                drawLine(operation.NewVertices);
-            }
-
-            clear ();
+		    clear ();
+            formulaBoxContent = "Rotate -> " + degrees + " degrees CounterClockwise\n\n";
+            operation.rotate(1, degrees);
+            drawLine(operation.NewVertices);
 		}
 		
 		if (GUI.Button (new Rect (65, 150, 130, 30), "Clockwise")) {
 			degrees =int.Parse(degreeBox);
 			degreeBox ="";
 			print(degrees);
-
-            if (shape == Shapes.Line)
-            {
-                formulaBoxContent = "Rotate -> " + degrees + " degrees Clockwise\n\n";
-                operation.rotate(0, degrees);
-                drawLine(operation.NewVertices);
-            }
-
-            clear ();
+			clear ();
+            formulaBoxContent = "Rotate -> " + degrees + " degrees Clockwise\n\n";
+            operation.rotate(0, degrees);
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			clear ();
@@ -385,19 +360,14 @@ public class GUIScript : MonoBehaviour {
 			
 			percentageScaleY =int.Parse(percentageScaleBoxY);
 			percentageScaleBoxY ="";
+			clear ();
+			print(percentageScaleX);
+			
+			print(percentageScaleY);
 
-            print(percentageScaleX);
-
-            print(percentageScaleY);
-
-            if (shape == Shapes.Line)
-            {
-                formulaBoxContent = "Scale -> X: " + percentageScaleX + "%; Y: " + percentageScaleY + "%\n\n";
-                operation.scale((float)(percentageScaleX / 100.0), (float)(percentageScaleY / 100.0));
-                drawLine(operation.NewVertices);
-            }
-
-            clear ();
+            formulaBoxContent = "Scale -> X: " + percentageScaleX + "%; Y: " + percentageScaleY + "%\n\n";
+            operation.scale((float)(percentageScaleX / 100.0), (float)(percentageScaleY / 100.0));
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			percentageScaleBoxX ="";
@@ -415,30 +385,20 @@ public class GUIScript : MonoBehaviour {
 			shearBox="";
 			isShearVertical = false;
 			print (shearAmount);
-
-            if (shape == Shapes.Line)
-            {
-                formulaBoxContent = "Shear -> Horizonal by " + shearAmount + "\n\n";
-                operation.shear(0, shearAmount);
-                drawLine(operation.NewVertices);
-            }
-
-            clear ();
+			clear ();
+            formulaBoxContent = "Shear -> Horizonal by " + shearAmount + "\n\n";
+            operation.shear(0, shearAmount);
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (65, 190, 130, 30), "Vertical")&&(shearBox!="")) {
 			shearAmount = int.Parse(shearBox);
 			shearBox="";
 			isShearVertical = true;
 			print (shearAmount);
-
-            if (shape == Shapes.Line)
-            {
-                formulaBoxContent = "Shear -> Vertical by " + shearAmount + "\n\n";
-                operation.shear(1, shearAmount);
-                drawLine(operation.NewVertices);
-            }
-
-            clear ();
+			clear ();
+            formulaBoxContent = "Shear -> Vertical by " + shearAmount + "\n\n";
+            operation.shear(1, shearAmount);
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			clear ();
@@ -457,15 +417,10 @@ public class GUIScript : MonoBehaviour {
 			yTranslate = int.Parse (yTranslateBox);
 			print (xTranslate);
 			print (yTranslate);
-
-            if (shape == Shapes.Line)
-            {
-                formulaBoxContent = "Translate -> X: " + xTranslate + "; Y: " + yTranslate + "\n\n";
-                operation.translate(xTranslate, yTranslate);
-                drawLine(operation.NewVertices);
-            }
-
-            clear ();
+			clear ();
+            formulaBoxContent = "Translate -> X: " + xTranslate + "; Y: " + yTranslate + "\n\n";
+            operation.translate(xTranslate, yTranslate);
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			xTranslateBox ="";
@@ -561,7 +516,7 @@ public class GUIScript : MonoBehaviour {
 			shape = Shapes.Line;
 			//particleGrapher.RenderEllipse(new Vector3(ellipseCenterX,ellipseCenterY,0), ellipseHeight, ellipseWidth);
 			lineManager.RenderEllipse(100, ellipseWidth,ellipseHeight, new Vector3(ellipseCenterX,ellipseCenterY,0));
-            clear ();
+			clear ();
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			equationBox ="";
@@ -636,9 +591,10 @@ public class GUIScript : MonoBehaviour {
 			print("X: "+parabolaCenterX);
 			print("Y: "+parabolaCenterY);
 			print("M: "+parabolaMagnitude);
-			shape = Shapes.Conic;
+			shape = Shapes.Line;
 			Vector3 vertex = new Vector3(parabolaCenterX, parabolaCenterY, -1);
-			particleGrapher.RenderParabola(vertex, parabolaMagnitude);
+			//particleGrapher.RenderParabola(vertex, parabolaMagnitude);
+			lineManager.RenderParabola(51,parabolaMagnitude, vertex);
 			clear ();
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
@@ -666,6 +622,8 @@ public class GUIScript : MonoBehaviour {
 			}
             shape = Shapes.Line;
             lineManager.RenderLine(vectorArray2, new Color32(19, 255, 0, 255));
+
+
 		}
 
 		if (GUI.Button(new Rect(185, 30 +(vertexCount*20), 20, 20), "+")&& (vertexCount<8))
