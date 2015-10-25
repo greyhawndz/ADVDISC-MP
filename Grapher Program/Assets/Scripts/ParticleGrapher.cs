@@ -10,10 +10,11 @@ public class ParticleGrapher : MonoBehaviour {
 	
 	
 	
-	public void RenderPoint(Vector3 vertex ,Color c){
+	public void RenderPoint(Vector3 vertex ,Color32 c){
 		points = new ParticleSystem.Particle[1];
 		points[0].position = vertex;
 		points[0].color = c;
+		points[0].size = 1f;
 		ps = this.GetComponent<ParticleSystem>();
 		ps.SetParticles(points, points.Length);
 	}

@@ -14,6 +14,15 @@ public class LineManager : MonoBehaviour {
             return vertices;
         }
     }
+    
+	private Vector3[] hyperbolicVertices;
+	public Vector3[] HyperbolicVertices
+	{
+		get
+		{
+			return hyperbolicVertices;
+		}
+	}
 
 
 	// Use this for initialization
@@ -63,8 +72,8 @@ public class LineManager : MonoBehaviour {
 		vertex1 = new Vector3(vertex.x, vertex.y + yOffset,0);
 		vertex2 = new Vector3(vertex.x, vertex.y - yOffset, 0);
 		
-		RenderParabola(51,1, vertex1);
-		hyperbolicRenderer.RenderParabola(51,-1,vertex2);
+		RenderParabola(51,1, vertex1,0);
+		hyperbolicRenderer.RenderParabola(51,-1,vertex2,1);
 	}
 	
 	public void RenderHyperbolaHorizontal(Vector3 vertex, int a, int b){
@@ -75,13 +84,14 @@ public class LineManager : MonoBehaviour {
 		vertex1 = new Vector3(vertex.x + xOffset, vertex.y, 0);
 		vertex2 = new Vector3(vertex.x - xOffset, vertex.y, 0);
 		
-		RenderParabolaHorizontal(51,1, vertex1);
-		hyperbolicRenderer.RenderParabolaHorizontal(51,-1,vertex2);
+		RenderParabolaHorizontal(51,1, vertex1,0);
+		hyperbolicRenderer.RenderParabolaHorizontal(51,-1,vertex2,1);
 	}
 	
-	public void RenderParabola(int segments, int magnitude, Vector3 vertex){
+	public void RenderParabola(int segments, int magnitude, Vector3 vertex, int det){
 		Debug.Log ("Hi");
 		vertices = new Vector3[segments * 2];
+		hyperbolicVertices = new Vector3[segments * 2];
 		int i = 0;
 		int x = (segments-1) / 2;
 		
@@ -91,7 +101,12 @@ public class LineManager : MonoBehaviour {
 		while(x > 0){
 			y = magnitude * Mathf.Pow(x - vertex.x, 2) + vertex.y;
 			Debug.Log ("When x = " +x +" , y = " +y);
-			vertices[i] = new Vector3(x,y,0);
+			if(det == 0){
+				vertices[i] = new Vector3(x,y,0);
+			}
+			else if(det == 1){
+				hyperbolicVertices[i] = new Vector3(x,y,0);
+			}
 			Debug.Log ("Pos: " +vertices[i]);
 			lineRender.SetPosition (i,new Vector3(x,y,0) );
 			i++;
@@ -101,7 +116,12 @@ public class LineManager : MonoBehaviour {
 		while(x < (segments-1) / 2){
 			y = magnitude * Mathf.Pow(-x - vertex.x, 2) + vertex.y;
 			Debug.Log ("When x = " +x +" , y = " +y);
-			vertices[i] = new Vector3(-x,y,0);
+			if(det == 0){
+				vertices[i] = new Vector3(-x,y,0);
+			}
+			else if(det == 1){
+				hyperbolicVertices[i] = new Vector3(-x,y,0);
+			}
 			Debug.Log ("Pos: " +vertices[i]);
 			lineRender.SetPosition (i,new Vector3(-x,y,0) );
 			i++;
@@ -111,9 +131,10 @@ public class LineManager : MonoBehaviour {
 		
 	}
 	
-	public void RenderParabolaHorizontal(int segments, int magnitude, Vector3 vertex){
+	public void RenderParabolaHorizontal(int segments, int magnitude, Vector3 vertex,int det){
 		Debug.Log ("Hi");
 		vertices = new Vector3[segments * 2];
+		hyperbolicVertices = new Vector3[segments * 2];
 		int i = 0;
 		int y = (segments-1) / 2;
 		
@@ -123,7 +144,12 @@ public class LineManager : MonoBehaviour {
 		while(y > 0){
 			x = magnitude * Mathf.Pow(y - vertex.y, 2) + vertex.x;
 			Debug.Log ("When x = " +x +" , y = " +y);
-			vertices[i] = new Vector3(x,y,0);
+			if(det == 0){
+				vertices[i] = new Vector3(x,y,0);
+			}
+			else if(det == 1){
+				hyperbolicVertices[i] = new Vector3(x,y,0);
+			}
 			Debug.Log ("Pos: " +vertices[i]);
 			lineRender.SetPosition (i,new Vector3(x,y,0) );
 			i++;
@@ -133,7 +159,12 @@ public class LineManager : MonoBehaviour {
 		while(y < (segments-1) / 2){
 			x = magnitude * Mathf.Pow(-y - vertex.y, 2) + vertex.x;
 			Debug.Log ("When x = " +x +" , y = " +y);
-			vertices[i] = new Vector3(x,-y,0);
+			if(det == 0){
+				vertices[i] = new Vector3(x,-y,0);
+			}
+			else if(det == 1){
+				hyperbolicVertices[i] = new Vector3(x,-y,0);
+			}
 			Debug.Log ("Pos: " +vertices[i]);
 			lineRender.SetPosition (i,new Vector3(x,-y,0) );
 			i++;
@@ -142,7 +173,6 @@ public class LineManager : MonoBehaviour {
 		lineRender.SetWidth(0.2f,0.2f);
 		
 	}
-	
 	
 	
 	public void RemoveLine(){
