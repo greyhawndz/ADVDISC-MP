@@ -7,7 +7,6 @@ public class CameraController : MonoBehaviour {
 	//private float cameraDistance = -10;
 	private float xBound;
 	private float yBound;
-	
 	// Update is called once per frame
 	void Update () {
 		moveCamera();
@@ -48,6 +47,12 @@ public class CameraController : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Space)){
 			this.transform.position = new Vector3(0,0,this.transform.position.z);
 		}
+		
+		//restrict player to game space
+		xBound = Mathf.Clamp(transform.position.x,-150,150);
+		yBound = Mathf.Clamp(transform.position.y,-150,150);
+		transform.position = new Vector3(xBound, yBound, transform.position.z);
+		
 		
 		
 	}
