@@ -6,6 +6,7 @@ public class MatrixOperation : MonoBehaviour
     private Vector2[] multiplier;
     private Vector3[] vertices;
     private Vector3[] newVertices;
+    private string matrixValues;
     public LineManager lineManager;
 
     public Vector3[] NewVertices
@@ -13,6 +14,14 @@ public class MatrixOperation : MonoBehaviour
         get
         {
             return newVertices;
+        }
+    }
+
+    public string MatrixValues
+    {
+        get
+        {
+            return matrixValues;
         }
     }
 
@@ -25,6 +34,7 @@ public class MatrixOperation : MonoBehaviour
     public void clear()
     {
         newVertices = null;
+        matrixValues = "";
     }
 
     public void reflect(int operation)
@@ -78,20 +88,40 @@ public class MatrixOperation : MonoBehaviour
         multiply(multiplier);
     }
 
-    public void scale(float scaleFactor)
+    public void scale(float scaleFactorX, float scaleFactorY)
     {
         vertices = lineManager.Vertices;
         multiplier = new Vector2[2];
 
-        multiplier[0] = new Vector2(scaleFactor, 0);
-        multiplier[1] = new Vector2(0, scaleFactor);
+        multiplier[0] = new Vector2(scaleFactorX, 0);
+        multiplier[1] = new Vector2(0, scaleFactorY);
 
         multiply(multiplier);
-}
+    }
 
-    public void shear()
+    public void shear(int operation, int shearFactor)
     {
+        /*****
+        operation values:
+        0 - horizontal
+        1 - vertical
+        *****/
 
+        vertices = lineManager.Vertices;
+        multiplier = new Vector2[2];
+
+        if (operation == 0)
+        {
+            multiplier[0] = new Vector2(1, 0);
+            multiplier[1] = new Vector2(shearFactor, 1);
+        }
+        else if (operation == 1)
+        {
+            multiplier[0] = new Vector2(1, shearFactor);
+            multiplier[1] = new Vector2(0, 1);
+        }
+
+        multiply(multiplier);
     }
 
     public void translate(int x, int y)
@@ -99,11 +129,18 @@ public class MatrixOperation : MonoBehaviour
         vertices = lineManager.Vertices;
         newVertices = new Vector3[vertices.Length];
 
+        //multiplier variable is used so that additional declarations won't be needed, even though nothing is being multiplied
+        multiplier = new Vector2[vertices.Length];
+
         for (int i = 0; i < vertices.Length; i++)
         {
             newVertices[i].x = vertices[i].x + x;
             newVertices[i].y = vertices[i].y + y;
+            multiplier[i].x = x;
+            multiplier[i].y = y;
         }
+
+        writeMatrixValues(multiplier, true);
     }
 
     void multiply(Vector2[] multiplier)
@@ -116,6 +153,38 @@ public class MatrixOperation : MonoBehaviour
             newVertices[i].x = vertices[i].x * multiplier[0].x + vertices[i].y * multiplier[1].x;
             newVertices[i].y = vertices[i].x * multiplier[0].y + vertices[i].y * multiplier[1].y;
             newVertices[i].z = vertices[i].z;
+        }
+
+        writeMatrixValues(multiplier, false);
+    }
+
+    void writeMatrixValues( Vector2[] multiplier, bool isTranslation )
+    {
+        matrixValues = "The Matrix\n";
+        for ( int i = 0; i < vertices.Length; i++ )
+        {
+            matrixValues += vertices[i].x.ToString() + "\t" + vertices[i].y.ToString() + "\n";
+        }
+
+        if( isTranslation )
+        {
+            matrixValues += "\nis added to the matrix\n";
+        }
+        else
+        {
+            matrixValues += "\nis multiplied to the matrix\n";
+        }
+
+        for( int j = 0; j < multiplier.Length; j++ )
+        {
+            matrixValues += multiplier[j].x.ToString() + "\t" + multiplier[j].y.ToString() + "\n";
+        }
+
+        matrixValues += "\nwhich results to\n";
+
+        for (int k = 0; k < NewVertices.Length; k++)
+        {
+            matrixValues += newVertices[k].x.ToString() + "\t" + newVertices[k].y.ToString() + "\n";
         }
     }
 }
