@@ -6,6 +6,7 @@ public class MatrixOperation : MonoBehaviour
     private Vector2[] multiplier;
     private Vector3[] vertices;
     private Vector3[] newVertices;
+    private string matrixValues;
     public LineManager lineManager;
 
     public Vector3[] NewVertices
@@ -87,7 +88,7 @@ public class MatrixOperation : MonoBehaviour
         multiplier[1] = new Vector2(0, scaleFactorY);
 
         multiply(multiplier);
-}
+    }
 
     public void shear(int operation, int shearFactor)
     {
@@ -137,5 +138,10 @@ public class MatrixOperation : MonoBehaviour
             newVertices[i].y = vertices[i].x * multiplier[0].y + vertices[i].y * multiplier[1].y;
             newVertices[i].z = vertices[i].z;
         }
+    }
+
+    void writeMatrixValues( Vector2[] multiplier )
+    {
+
     }
 }
