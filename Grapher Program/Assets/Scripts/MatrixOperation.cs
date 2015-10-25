@@ -78,20 +78,40 @@ public class MatrixOperation : MonoBehaviour
         multiply(multiplier);
     }
 
-    public void scale(float scaleFactor)
+    public void scale(float scaleFactorX, float scaleFactorY)
     {
         vertices = lineManager.Vertices;
         multiplier = new Vector2[2];
 
-        multiplier[0] = new Vector2(scaleFactor, 0);
-        multiplier[1] = new Vector2(0, scaleFactor);
+        multiplier[0] = new Vector2(scaleFactorX, 0);
+        multiplier[1] = new Vector2(0, scaleFactorY);
 
         multiply(multiplier);
 }
 
-    public void shear()
+    public void shear(int operation, int shearFactor)
     {
+        /*****
+        operation values:
+        0 - horizontal
+        1 - vertical
+        *****/
 
+        vertices = lineManager.Vertices;
+        multiplier = new Vector2[2];
+
+        if (operation == 0)
+        {
+            multiplier[0] = new Vector2(1, 0);
+            multiplier[1] = new Vector2(shearFactor, 1);
+        }
+        else if (operation == 1)
+        {
+            multiplier[0] = new Vector2(1, shearFactor);
+            multiplier[1] = new Vector2(0, 1);
+        }
+
+        multiply(multiplier);
     }
 
     public void translate(int x, int y)

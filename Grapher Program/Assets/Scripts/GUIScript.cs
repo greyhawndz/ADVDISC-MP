@@ -312,7 +312,7 @@ public class GUIScript : MonoBehaviour {
 		  degreeBox ="";
 		  print(degrees);
 		  clear ();
-          operation.rotate(0, degrees);
+          operation.rotate(1, degrees);
           drawLine(operation.NewVertices);
 		}
 		
@@ -321,7 +321,7 @@ public class GUIScript : MonoBehaviour {
 			degreeBox ="";
 			print(degrees);
 			clear ();
-            operation.rotate(1, degrees);
+            operation.rotate(0, degrees);
             drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
@@ -347,6 +347,9 @@ public class GUIScript : MonoBehaviour {
 			print(percentageScaleX);
 			
 			print(percentageScaleY);
+
+            operation.scale((float)(percentageScaleX / 100.0), (float)(percentageScaleY / 100.0));
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			percentageScaleBoxX ="";
@@ -365,6 +368,9 @@ public class GUIScript : MonoBehaviour {
 			isShearVertical = false;
 			print (shearAmount);
 			clear ();
+
+            operation.shear(0, shearAmount);
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (65, 190, 130, 30), "Vertical")&&(shearBox!="")) {
 			shearAmount = int.Parse(shearBox);
@@ -372,6 +378,9 @@ public class GUIScript : MonoBehaviour {
 			isShearVertical = true;
 			print (shearAmount);
 			clear ();
+
+            operation.shear(1, shearAmount);
+            drawLine(operation.NewVertices);
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			clear ();
