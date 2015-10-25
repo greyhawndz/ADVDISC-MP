@@ -586,7 +586,7 @@ public class GUIScript : MonoBehaviour {
 			print (pointX);
 			print (pointY);
 			shape = Shapes.Conic;
-			particleGrapher.RenderPoint(new Vector3(pointX,pointY,0),new Color(19,255,0,255));
+			particleGrapher.RenderPoint(new Vector3(pointX,pointY,0),new Color32(19,255,0,255));
 			clear ();
 								
 				}
@@ -743,7 +743,7 @@ public class GUIScript : MonoBehaviour {
 			shape = Shapes.Line;
 			Vector3 vertex = new Vector3(parabolaCenterX, parabolaCenterY, -1);
 			//particleGrapher.RenderParabola(vertex, parabolaMagnitude);
-			lineManager.RenderParabolaHorizontal(51,parabolaMagnitude, vertex);
+			lineManager.RenderParabolaHorizontal(51,parabolaMagnitude, vertex, 0);
 			clear ();
 		}
 		
@@ -763,7 +763,7 @@ public class GUIScript : MonoBehaviour {
 			shape = Shapes.Line;
 			Vector3 vertex = new Vector3(parabolaCenterX, parabolaCenterY, -1);
 			//particleGrapher.RenderParabola(vertex, parabolaMagnitude);
-			lineManager.RenderParabola(51,parabolaMagnitude, vertex);
+			lineManager.RenderParabola(51,parabolaMagnitude, vertex, 0);
 			clear ();
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
