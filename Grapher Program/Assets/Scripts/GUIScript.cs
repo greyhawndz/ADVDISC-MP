@@ -28,6 +28,7 @@ public class GUIScript : MonoBehaviour {
 	public bool setVerticesClicked = false;
 	public bool setEllipseClicked = false;
 	public bool setParabolaClicked = false;
+	public bool setHyperbolaClicked=false;
 	public bool scaleClicked = false;
 	public bool reflectClicked = false;
 	public bool rotateClicked = false;
@@ -49,6 +50,12 @@ public class GUIScript : MonoBehaviour {
 	public string ellipseCenterBoxY;
 	public string ellipseWidthBox;
 	public string ellipseHeightBox;
+
+	public string hyperbolaCenterBoxX;
+	public string hyperbolaCenterBoxY;
+	public string hyperbolaWidthBox;
+	public string hyperbolaHeightBox;
+
 
 	public string parabolaCenterBoxX;
 	public string parabolaCenterBoxY;
@@ -83,6 +90,12 @@ public class GUIScript : MonoBehaviour {
 	public int ellipseHeight;
 	public int ellipseWidth;
 
+	public int hyperbolaCenterX;
+	public int hyperbolaCenterY;
+	public int hyperbolaHeight;
+	public int hyperbolaWidth;
+	public bool hyperbolaIsVertical;
+
 	public int parabolaCenterX;
 	public int parabolaCenterY;
 	public int parabolaMagnitude;
@@ -102,6 +115,7 @@ public class GUIScript : MonoBehaviour {
 		reflectClicked = false;
 		setEllipseClicked = false;
 		setParabolaClicked = false;
+		setHyperbolaClicked = false;
 		rotateClicked = false;
 		shearClicked = false;
 		translateClicked = false;
@@ -128,6 +142,12 @@ public class GUIScript : MonoBehaviour {
 		parabolaCenterX = 0;
 		parabolaCenterY = 0;
 		parabolaMagnitude = 0;
+
+		hyperbolaCenterX = 0;
+		hyperbolaCenterY = 0;
+		hyperbolaHeight = 0;
+		hyperbolaWidth = 0;
+		hyperbolaIsVertical = false;
 		
 		formulaBoxContent = "";
 		reflectX = false;
@@ -231,6 +251,9 @@ public class GUIScript : MonoBehaviour {
 		if (setParabolaClicked) {
 			windowRect = GUI.Window (0, windowRect, setParabola, "Set Parabola");
 		}
+		if (setHyperbolaClicked) {
+			windowRect = GUI.Window (0, windowRect, setHyperbola, "Set Hyperbola");
+		}
 		if (translateClicked) {
 			windowRect = GUI.Window (0, windowRect, translate, "Translate");
 		}
@@ -284,7 +307,7 @@ public class GUIScript : MonoBehaviour {
 
 		degreeBox = GUI.TextArea(new Rect(65, 55, 130, 30), degreeBox);
 		degreeBox = rgx.Replace(degreeBox, "");
-		if (GUI.Button(new Rect(65, 115, 130, 30), "Clockwise"))
+		if (GUI.Button(new Rect(65, 115, 130, 30), "CounterClockwise"))
 		{ degrees =int.Parse(degreeBox);
 		  degreeBox ="";
 		  print(degrees);
@@ -293,7 +316,7 @@ public class GUIScript : MonoBehaviour {
           drawLine(operation.NewVertices);
 		}
 		
-		if (GUI.Button (new Rect (65, 150, 130, 30), "Counterclockwise")) {
+		if (GUI.Button (new Rect (65, 150, 130, 30), "Clockwise")) {
 			degrees =int.Parse(degreeBox);
 			degreeBox ="";
 			print(degrees);
@@ -405,6 +428,11 @@ public class GUIScript : MonoBehaviour {
 			setParabolaClicked = true;
 			setParabola(0);
 		}
+		if (GUI.Button (new Rect (75, 170, 100, 30), "Hyperbola")) {
+
+			setHyperbolaClicked = true;
+			setHyperbola(0);
+		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			clear ();
 		}
@@ -465,6 +493,45 @@ public class GUIScript : MonoBehaviour {
 		GUI.DragWindow();
 	}
 
+	public void setHyperbola(int windowID)
+	{			
+		GUI.Label(new Rect(50, 40, 130, 30), "X");
+		hyperbolaCenterBoxX = GUI.TextArea(new Rect(65, 35, 130, 30), hyperbolaCenterBoxX);
+		hyperbolaCenterBoxX = rgx.Replace(hyperbolaCenterBoxX, "");
+		GUI.Label(new Rect(50, 80, 130, 30), "Y");
+		hyperbolaCenterBoxY = GUI.TextArea(new Rect(65, 75, 130, 30), hyperbolaCenterBoxY);
+		hyperbolaCenterBoxY = rgx.Replace(hyperbolaCenterBoxY, "");
+		GUI.Label(new Rect(50, 120, 130, 30), "H");
+		hyperbolaHeightBox = GUI.TextArea(new Rect(65, 115, 130, 30), hyperbolaHeightBox);
+		hyperbolaHeightBox = rgx.Replace(hyperbolaHeightBox, "");
+		GUI.Label(new Rect(50, 160, 130, 30), "W");
+		hyperbolaWidthBox = GUI.TextArea(new Rect(65, 155, 130, 30), hyperbolaWidthBox);
+		hyperbolaWidthBox = rgx.Replace(hyperbolaWidthBox, "");
+		
+		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
+			hyperbolaCenterX=int.Parse(hyperbolaCenterBoxX);
+			hyperbolaCenterY=int.Parse(hyperbolaCenterBoxY);
+			hyperbolaHeight=int.Parse(hyperbolaHeightBox);
+			hyperbolaWidth=int.Parse(hyperbolaWidthBox);
+			hyperbolaCenterBoxX = "";
+			hyperbolaCenterBoxY= "";
+			hyperbolaHeightBox= "";
+			hyperbolaWidthBox= "";
+			print("X: "+hyperbolaCenterX);
+			print("Y: "+hyperbolaCenterY);
+			print("H: "+hyperbolaHeight);
+			print("W: "+hyperbolaWidth);
+			clear ();
+		}
+		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
+			hyperbolaCenterBoxX = "";
+			hyperbolaCenterBoxY= "";
+			hyperbolaHeightBox= "";
+			hyperbolaWidthBox= "";
+			clear ();
+		}
+		GUI.DragWindow();
+	}
 
 	public void setParabola(int windowID)
 	{	
