@@ -72,11 +72,11 @@ public class Grapher1 : MonoBehaviour {
 	}
 	
 	private static float Parabola (float x){
-		x = 2f * x - 1f;
+		x = 2f * x - 1f + Time.timeSinceLevelLoad;
 		return x * x;
 	}
 	
 	private static float Sine (float x){
-		return 0.5f + 0.5f * Mathf.Sin(2 * Mathf.PI * x);
+		return 0.5f + 0.5f * Mathf.Sin(2 * Mathf.PI * x) + Time.timeSinceLevelLoad;
 	}
 }

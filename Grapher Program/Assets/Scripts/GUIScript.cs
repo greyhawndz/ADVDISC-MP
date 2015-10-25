@@ -14,6 +14,13 @@ public class GUIScript : MonoBehaviour {
 		public string x;
 		public string y;
 	}
+	
+	//State of drawing
+	private enum Shapes{
+		Line,
+		Conic
+	}
+	private Shapes shape;
     
     //GameObject
     public LineManager lineManager;
@@ -205,8 +212,13 @@ public class GUIScript : MonoBehaviour {
 		if (GUI.Button (new Rect (10, 85, 100, 30), "Erase Figure")) {
 			clear ();
 			eraseFigure ();
-			lineManager.RemoveLine();
-            lineManager2.RemoveLine();
+			if(shape == Shapes.Line){
+				lineManager.RemoveLine();
+            	lineManager2.RemoveLine();
+            }
+            else if(shape == Shapes.Conic){
+            	particleGrapher.Delete();
+            }
 		}
 			
 		if (GUI.Button (new Rect (180, 160, 80, 30), "Reflect")) {
@@ -493,6 +505,9 @@ public class GUIScript : MonoBehaviour {
 			print("Y: "+ellipseCenterY);
 			print("H: "+ellipseHeight);
 			print("W: "+ellipseWidth);
+			shape = Shapes.Line;
+			//particleGrapher.RenderEllipse(new Vector3(ellipseCenterX,ellipseCenterY,0), ellipseHeight, ellipseWidth);
+			lineManager.RenderEllipse(100, ellipseWidth,ellipseHeight, new Vector3(ellipseCenterX,ellipseCenterY,0));
 			clear ();
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
@@ -530,6 +545,7 @@ public class GUIScript : MonoBehaviour {
 			print("Y: "+hyperbolaCenterY);
 			print("H: "+hyperbolaHeight);
 			print("W: "+hyperbolaWidth);
+			shape = Shapes.Conic;
 			clear ();
 		}
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
@@ -567,7 +583,7 @@ public class GUIScript : MonoBehaviour {
 			print("X: "+parabolaCenterX);
 			print("Y: "+parabolaCenterY);
 			print("M: "+parabolaMagnitude);
-			
+			shape = Shapes.Conic;
 			Vector3 vertex = new Vector3(parabolaCenterX, parabolaCenterY, -1);
 			particleGrapher.RenderParabola(vertex, parabolaMagnitude);
 
@@ -596,7 +612,7 @@ public class GUIScript : MonoBehaviour {
 				print ("X:"+ vectorArray[i].x +"  Y:" + vectorArray[i].y);
 				print (vectorArray.Length);
 			}
-            
+            shape = Shapes.Line;
             lineManager.RenderLine(vectorArray2, new Color32(19, 255, 0, 255));
 
 
