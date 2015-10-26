@@ -8,7 +8,13 @@ public class ParticleGrapher : MonoBehaviour {
 	private ParticleSystem ps;
 	private int currentResolution;
 	
-	
+	public ParticleSystem PS
+    {
+        get
+        {
+            return ps;
+        }
+    }
 	
 	public void RenderPoint(Vector3 vertex ,Color32 c){
 		points = new ParticleSystem.Particle[1];

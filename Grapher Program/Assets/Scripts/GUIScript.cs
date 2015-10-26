@@ -175,6 +175,19 @@ public class GUIScript : MonoBehaviour {
 
         operation.clear();
         shape = Shapes.None;
+
+        //if (shape == Shapes.Line)
+        //{
+            lineManager.RemoveLine();
+            lineManager2.RemoveLine();
+            lineManager3.RemoveLine();
+        //}
+        //else if (shape == Shapes.Conic)
+        //{
+        if( particleGrapher.PS != null )
+            particleGrapher.Delete();
+        //}
+
     }
 	// Use this for initialization
 	void Start () {
@@ -226,14 +239,6 @@ public class GUIScript : MonoBehaviour {
 		}
 
 		if (GUI.Button (new Rect (10, 85, 100, 30), "Erase Figure")) {
-			if(shape == Shapes.Line){
-				lineManager.RemoveLine();
-            	lineManager2.RemoveLine();
-                lineManager3.RemoveLine();
-            }
-            else if(shape == Shapes.Conic){
-            	particleGrapher.Delete();
-            }
 
             clear();
             eraseFigure();
@@ -318,7 +323,7 @@ public class GUIScript : MonoBehaviour {
             if (shape == Shapes.Line)
             {
                 formulaBoxContent = "Reflect -> along the X Axis\n\n";
-                operation.reflect(0);
+                operation.reflect(lineManager.Vertices, 0);
                 drawLine(operation.NewVertices);
             }
             else if( shape == Shapes.Conic )
@@ -336,7 +341,7 @@ public class GUIScript : MonoBehaviour {
             if( shape == Shapes.Line )
             {
                 formulaBoxContent = "Reflect -> along the Y Axis\n\n";
-                operation.reflect(1);
+                operation.reflect(lineManager.Vertices, 1);
                 drawLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
@@ -368,7 +373,7 @@ public class GUIScript : MonoBehaviour {
             if( shape == Shapes.Line )
             {
                 formulaBoxContent = "Rotate -> " + degrees + " degrees CounterClockwise\n\n";
-                operation.rotate(1, degrees);
+                operation.rotate(lineManager.Vertices, 1, degrees);
                 drawLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
@@ -387,7 +392,7 @@ public class GUIScript : MonoBehaviour {
             if( shape == Shapes.Line )
             {
                 formulaBoxContent = "Rotate -> " + degrees + " degrees Clockwise\n\n";
-                operation.rotate(0, degrees);
+                operation.rotate(lineManager.Vertices, 0, degrees);
                 drawLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
@@ -424,7 +429,7 @@ public class GUIScript : MonoBehaviour {
             if (shape == Shapes.Line)
             {
                 formulaBoxContent = "Scale -> X: " + percentageScaleX + "%; Y: " + percentageScaleY + "%\n\n";
-                operation.scale((float)(percentageScaleX / 100.0), (float)(percentageScaleY / 100.0));
+                operation.scale(lineManager.Vertices, (float)(percentageScaleX / 100.0), (float)(percentageScaleY / 100.0));
                 drawLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
@@ -454,7 +459,7 @@ public class GUIScript : MonoBehaviour {
             if( shape == Shapes.Line )
             {
                 formulaBoxContent = "Shear -> Horizonal by " + shearAmount + "\n\n";
-                operation.shear(0, shearAmount);
+                operation.shear(lineManager.Vertices, 0, shearAmount);
                 drawLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
@@ -473,7 +478,7 @@ public class GUIScript : MonoBehaviour {
             if( shape == Shapes.Line )
             {
                 formulaBoxContent = "Shear -> Vertical by " + shearAmount + "\n\n";
-                operation.shear(1, shearAmount);
+                operation.shear(lineManager.Vertices, 1, shearAmount);
                 drawLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
@@ -505,7 +510,7 @@ public class GUIScript : MonoBehaviour {
             if( shape == Shapes.Line )
             {
                 formulaBoxContent = "Translate -> X: " + xTranslate + "; Y: " + yTranslate + "\n\n";
-                operation.translate(xTranslate, yTranslate);
+                operation.translate(lineManager.Vertices, xTranslate, yTranslate);
                 drawLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
@@ -532,6 +537,7 @@ public class GUIScript : MonoBehaviour {
             lineManager3.RenderLine(vertices[1], new Color32(0, 63, 247, 255));
         }
         formulaBoxContent += operation.MatrixValues;
+        formulaBoxContent += operation.MatrixValues2;
     }
 
     public void setObjectFunction(int windowID) {
@@ -578,8 +584,8 @@ public class GUIScript : MonoBehaviour {
 		}
 		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm"))
         {
-
-			pointX = int.Parse(pointBoxX);
+            eraseFigure();
+            pointX = int.Parse(pointBoxX);
 			pointY = int.Parse (pointBoxY);
 
 			pointBoxX = "";
@@ -588,8 +594,9 @@ public class GUIScript : MonoBehaviour {
 			print (pointY);
 			shape = Shapes.Conic;
 			particleGrapher.RenderPoint(new Vector3(pointX,pointY,0),new Color32(19,255,0,255));
-			clear ();
-								
+            lineManager.RemoveLine();
+            clear ();
+            
 		}
 		
 		
@@ -630,7 +637,8 @@ public class GUIScript : MonoBehaviour {
 		ellipseWidthBox = rgx.Replace(ellipseWidthBox, "");
 		
 		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
-			ellipseCenterX=int.Parse(ellipseCenterBoxX);
+            eraseFigure();
+            ellipseCenterX =int.Parse(ellipseCenterBoxX);
 			ellipseCenterY=int.Parse(ellipseCenterBoxY);
 			ellipseHeight=int.Parse(ellipseHeightBox);
 			ellipseWidth=int.Parse(ellipseWidthBox);
@@ -646,7 +654,7 @@ public class GUIScript : MonoBehaviour {
 			//particleGrapher.RenderEllipse(new Vector3(ellipseCenterX,ellipseCenterY,0), ellipseHeight, ellipseWidth);
 			lineManager.RenderEllipse(100, ellipseWidth,ellipseHeight, new Vector3(ellipseCenterX,ellipseCenterY,0));
 			clear ();
-		}
+        }
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			equationBox ="";
 			clear ();
@@ -670,7 +678,8 @@ public class GUIScript : MonoBehaviour {
 		hyperbolaWidthBox = rgx.Replace(hyperbolaWidthBox, "");
 		
 		if (GUI.Button (new Rect (35, 200, 80, 30), "Vertical")) {
-			hyperbolaCenterX=int.Parse(hyperbolaCenterBoxX);
+            eraseFigure();
+            hyperbolaCenterX =int.Parse(hyperbolaCenterBoxX);
 			hyperbolaCenterY=int.Parse(hyperbolaCenterBoxY);
 			hyperbolaHeight=int.Parse(hyperbolaHeightBox);
 			hyperbolaWidth=int.Parse(hyperbolaWidthBox);
@@ -686,9 +695,10 @@ public class GUIScript : MonoBehaviour {
 			shape = Shapes.Line;
 			lineManager.RenderHyperbola(new Vector3(hyperbolaCenterX,hyperbolaCenterY,0),hyperbolaHeight,hyperbolaWidth);
 			clear ();
-		}
+        }
 		if (GUI.Button (new Rect (135, 200, 80, 30), "Horizontal")) {
-			hyperbolaCenterX=int.Parse(hyperbolaCenterBoxX);
+            eraseFigure();
+            hyperbolaCenterX =int.Parse(hyperbolaCenterBoxX);
 			hyperbolaCenterY=int.Parse(hyperbolaCenterBoxY);
 			hyperbolaHeight=int.Parse(hyperbolaHeightBox);
 			hyperbolaWidth=int.Parse(hyperbolaWidthBox);
@@ -704,7 +714,7 @@ public class GUIScript : MonoBehaviour {
 			shape = Shapes.Line;
 			lineManager.RenderHyperbolaHorizontal(new Vector3(hyperbolaCenterX,hyperbolaCenterY,0),hyperbolaWidth,hyperbolaHeight);
 			clear ();
-		}
+        }
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			hyperbolaCenterBoxX = "";
 			hyperbolaCenterBoxY= "";
@@ -729,7 +739,8 @@ public class GUIScript : MonoBehaviour {
 
 		
 		if (GUI.Button (new Rect (35, 200, 80, 30), "Horizontal")) {
-			parabolaCenterX=int.Parse(parabolaCenterBoxX);
+            eraseFigure();
+            parabolaCenterX =int.Parse(parabolaCenterBoxX);
 			parabolaCenterY=int.Parse(parabolaCenterBoxY);
 			parabolaMagnitude=int.Parse(parabolaMagnitudeBox);
 			
@@ -746,10 +757,11 @@ public class GUIScript : MonoBehaviour {
 			//particleGrapher.RenderParabola(vertex, parabolaMagnitude);
 			lineManager.RenderParabolaHorizontal(51,parabolaMagnitude, vertex, 0);
 			clear ();
-		}
+        }
 		
 		if (GUI.Button (new Rect (135, 200, 80, 30), "Vertical")) {
-			parabolaCenterX=int.Parse(parabolaCenterBoxX);
+            eraseFigure();
+            parabolaCenterX =int.Parse(parabolaCenterBoxX);
 			parabolaCenterY=int.Parse(parabolaCenterBoxY);
 			parabolaMagnitude=int.Parse(parabolaMagnitudeBox);
 			
@@ -766,7 +778,7 @@ public class GUIScript : MonoBehaviour {
 			//particleGrapher.RenderParabola(vertex, parabolaMagnitude);
 			lineManager.RenderParabola(51,parabolaMagnitude, vertex, 0);
 			clear ();
-		}
+        }
 		if (GUI.Button (new Rect (225, 0, 25, 20), "X")) {
 			equationBox ="";
 			clear ();
@@ -780,7 +792,8 @@ public class GUIScript : MonoBehaviour {
 			clear ();
 		}
 		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
-			 vectorArray = new VectorData[vertexCount];
+            eraseFigure();
+            vectorArray = new VectorData[vertexCount];
             vectorArray2 = new Vector3[vertexCount];
 			clear ();
 			for(int i=0;i<vertexCount;i++)
@@ -792,9 +805,7 @@ public class GUIScript : MonoBehaviour {
 			}
             shape = Shapes.Line;
             lineManager.RenderLine(vectorArray2, new Color32(19, 255, 0, 255));
-
-
-		}
+        }
 
 		if (GUI.Button(new Rect(185, 30 +(vertexCount*20), 20, 20), "+")&& (vertexCount<8))
 		{vertexCount++;

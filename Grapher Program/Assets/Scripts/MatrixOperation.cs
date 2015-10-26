@@ -9,6 +9,7 @@ public class MatrixOperation : MonoBehaviour
     private Vector3[] newVertices;
     private Vector3[] newVertices2;
     private string matrixValues;
+    private string matrixValues2;
     public LineManager lineManager;
 
     //public Vector3[] NewVertices
@@ -47,18 +48,26 @@ public class MatrixOperation : MonoBehaviour
         }
     }
 
+    public string MatrixValues2
+    {
+        get
+        {
+            return matrixValues2;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
         
     }
 
-    public void getData( bool isHyperbola )
+    public void getData( Vector3[] vertices )
     {
-        vertices = lineManager.Vertices;
+        this.vertices = vertices;
 
         //get reflected parabola
-        if( isHyperbola )
+        if(lineManager.Hyperbola)
         {
             multiplier = new Vector2[2];
 
@@ -81,9 +90,10 @@ public class MatrixOperation : MonoBehaviour
     {
         newVertices = null;
         matrixValues = "";
+        matrixValues2 = "";
     }
 
-    public void reflect(int operation)
+    public void reflect( Vector3[] vertices, int operation )
     {
 
         /*****
@@ -92,7 +102,7 @@ public class MatrixOperation : MonoBehaviour
         1 - Along Y Axis
         *****/
 
-        getData(lineManager.Hyperbola);
+        getData(vertices);
         multiplier = new Vector2[2];
 
         if (operation == 0)
@@ -109,7 +119,7 @@ public class MatrixOperation : MonoBehaviour
         multiply(multiplier);
     }
 
-    public void rotate( int operation, int degrees )
+    public void rotate( Vector3[] vertices, int operation, int degrees )
     {
         /*****
         operation values:
@@ -117,7 +127,7 @@ public class MatrixOperation : MonoBehaviour
         1 - counter-clockwise
         *****/
 
-        getData(lineManager.Hyperbola);
+        getData(vertices);
         multiplier = new Vector2[2];
 
         float angle = (float) (Mathf.PI * degrees / 180.0);
@@ -136,9 +146,9 @@ public class MatrixOperation : MonoBehaviour
         multiply(multiplier);
     }
 
-    public void scale(float scaleFactorX, float scaleFactorY)
+    public void scale( Vector3[] vertices, float scaleFactorX, float scaleFactorY )
     {
-        getData(lineManager.Hyperbola);
+        getData(vertices);
         multiplier = new Vector2[2];
 
         multiplier[0] = new Vector2(scaleFactorX, 0);
@@ -147,7 +157,7 @@ public class MatrixOperation : MonoBehaviour
         multiply(multiplier);
     }
 
-    public void shear(int operation, int shearFactor)
+    public void shear( Vector3[] vertices, int operation, int shearFactor )
     {
         /*****
         operation values:
@@ -155,7 +165,7 @@ public class MatrixOperation : MonoBehaviour
         1 - vertical
         *****/
 
-        getData(lineManager.Hyperbola);
+        getData(vertices);
         multiplier = new Vector2[2];
 
         if (operation == 0)
@@ -172,10 +182,10 @@ public class MatrixOperation : MonoBehaviour
         multiply(multiplier);
     }
 
-    public void translate(int x, int y)
+    public void translate( Vector3[] vertices, int x, int y )
     {
         int multIndex = 0;
-        getData(lineManager.Hyperbola);
+        getData(vertices);
         newVertices = new Vector3[vertices.Length];
 
         //multiplier variable is used so that additional declarations won't be needed, even though nothing is being multiplied
@@ -277,9 +287,10 @@ public class MatrixOperation : MonoBehaviour
 
         matrixValues += "\nwhich results to\n";
 
-        for (int k = 0; k < NewVertices.Length; k++)
+        matrixValues2 = "";
+        for (int k = 0; k < newVertices.Length; k++)
         {
-            matrixValues += newVertices[k].x.ToString() + "\t" + newVertices[k].y.ToString() + "\n";
+            matrixValues2 += newVertices[k].x.ToString() + "\t" + newVertices[k].y.ToString() + "\n";
         }
     }
 }
