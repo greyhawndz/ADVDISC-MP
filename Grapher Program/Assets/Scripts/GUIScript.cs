@@ -27,6 +27,7 @@ public class GUIScript : MonoBehaviour {
     //GameObject
     public LineManager lineManager;
     public LineManager lineManager2;
+    public LineManager lineManager3;
     public ParticleGrapher particleGrapher;
     public MatrixOperation operation;
 
@@ -168,7 +169,7 @@ public class GUIScript : MonoBehaviour {
 		hyperbolaWidth = 0;
 		hyperbolaIsVertical = false;
 		
-		formulaBoxContent = "";
+		formulaBoxContent = "You may navigate the grid with the WASD keys.\n\nYou may navigate this box with the arrow keys (after clicking the box).";
 		reflectX = false;
 		reflectY =false;
 
@@ -180,7 +181,7 @@ public class GUIScript : MonoBehaviour {
 
 		rgx = new Regex("[^-^0-9]");
 		vertexCount = 1;
-		formulaBoxContent = "Formula Box";
+		formulaBoxContent = "You may navigate the grid with the WASD keys.\n\nYou may navigate this box with the arrow keys (after clicking the box).";
 		vectorInputArray[0]= new VectorInput();
 		vectorInputArray[1]= new VectorInput();
 		vectorInputArray[2]= new VectorInput();
@@ -228,6 +229,7 @@ public class GUIScript : MonoBehaviour {
 			if(shape == Shapes.Line){
 				lineManager.RemoveLine();
             	lineManager2.RemoveLine();
+                lineManager3.RemoveLine();
             }
             else if(shape == Shapes.Conic){
             	particleGrapher.Delete();
@@ -522,38 +524,36 @@ public class GUIScript : MonoBehaviour {
 		GUI.DragWindow();
 	}
 
-    private void drawLine( Vector3[] vertices )
+    private void drawLine(Vector3[][] vertices)
     {
-        lineManager2.RenderLine(vertices, new Color32(0, 63, 247, 255));
+        lineManager2.RenderLine(vertices[0], new Color32(0, 63, 247, 255));
+        if (vertices[1] != null)
+        {
+            lineManager3.RenderLine(vertices[1], new Color32(0, 63, 247, 255));
+        }
         formulaBoxContent += operation.MatrixValues;
     }
 
     public void setObjectFunction(int windowID) {
 
-		if (GUI.Button(new Rect(75, 30, 100, 30), "Equation"))
-		{	
-
-			setEquationClicked =true;
-			setEquation(0);}
-		
-		if (GUI.Button (new Rect (75, 65, 100, 30), "Vertices")) {
+		if (GUI.Button (new Rect (75, 30, 100, 30), "Vertices")) {
 			setVerticesClicked = true;
 			setVerticesFunction(0);
 		}
-		if (GUI.Button (new Rect (75, 100, 100, 30), "Ellipse")) {
+		if (GUI.Button (new Rect (75, 65, 100, 30), "Ellipse")) {
 			setEllipseClicked = true;
 			setEllipse(0);
 		}
-		if (GUI.Button (new Rect (75, 135, 100, 30), "Parabola")) {
+		if (GUI.Button (new Rect (75, 100, 100, 30), "Parabola")) {
 			setParabolaClicked = true;
 			setParabola(0);
 		}
-		if (GUI.Button (new Rect (75, 170, 100, 30), "Hyperbola")) {
+		if (GUI.Button (new Rect (75, 135, 100, 30), "Hyperbola")) {
 
 			setHyperbolaClicked = true;
 			setHyperbola(0);
 		}
-		if (GUI.Button (new Rect (75, 205, 100, 30), "Point")) {
+		if (GUI.Button (new Rect (75, 170, 100, 30), "Point")) {
 			
 			setPointClicked = true;
 			setPoint(0);
@@ -576,7 +576,8 @@ public class GUIScript : MonoBehaviour {
 			clear ();
 
 		}
-		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm")) {
+		if (GUI.Button (new Rect (65, 200, 130, 30), "Confirm"))
+        {
 
 			pointX = int.Parse(pointBoxX);
 			pointY = int.Parse (pointBoxY);
@@ -589,7 +590,7 @@ public class GUIScript : MonoBehaviour {
 			particleGrapher.RenderPoint(new Vector3(pointX,pointY,0),new Color32(19,255,0,255));
 			clear ();
 								
-				}
+		}
 		
 		
 		

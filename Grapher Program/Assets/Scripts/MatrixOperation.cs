@@ -5,15 +5,37 @@ public class MatrixOperation : MonoBehaviour
 {
     private Vector2[] multiplier;
     private Vector3[] vertices;
+    private Vector3[] vertices2;
     private Vector3[] newVertices;
+    private Vector3[] newVertices2;
     private string matrixValues;
     public LineManager lineManager;
 
-    public Vector3[] NewVertices
+    //public Vector3[] NewVertices
+    //{
+    //    get
+    //    {
+    //        return newVertices;
+    //    }
+    //}
+
+    public Vector3[][] NewVertices
     {
         get
         {
-            return newVertices;
+            Vector3[][] ret = new Vector3[2][];
+            ret[0] = newVertices;
+
+            if (lineManager.Hyperbola)
+            {
+                ret[1] = newVertices2;
+            }
+            else
+            {
+                ret[1] = null;
+            }
+
+            return ret;
         }
     }
 
@@ -31,6 +53,30 @@ public class MatrixOperation : MonoBehaviour
         
     }
 
+    public void getData( bool isHyperbola )
+    {
+        vertices = lineManager.Vertices;
+
+        //get reflected parabola
+        if( isHyperbola )
+        {
+            multiplier = new Vector2[2];
+
+            if ( !lineManager.Horizontal )
+            {
+                multiplier[0] = new Vector2(1, 0);
+                multiplier[1] = new Vector2(0, -1);
+            }
+            else if ( lineManager.Horizontal )
+            {
+                multiplier[0] = new Vector2(-1, 0);
+                multiplier[1] = new Vector2(0, 1);
+            }
+
+            multiply(vertices, multiplier);
+        }
+    }
+
     public void clear()
     {
         newVertices = null;
@@ -39,12 +85,14 @@ public class MatrixOperation : MonoBehaviour
 
     public void reflect(int operation)
     {
+
         /*****
         operation values:
         0 - Along X Axis
         1 - Along Y Axis
         *****/
-        vertices = lineManager.Vertices;
+
+        getData(lineManager.Hyperbola);
         multiplier = new Vector2[2];
 
         if (operation == 0)
@@ -69,7 +117,7 @@ public class MatrixOperation : MonoBehaviour
         1 - counter-clockwise
         *****/
 
-        vertices = lineManager.Vertices;
+        getData(lineManager.Hyperbola);
         multiplier = new Vector2[2];
 
         float angle = (float) (Mathf.PI * degrees / 180.0);
@@ -90,7 +138,7 @@ public class MatrixOperation : MonoBehaviour
 
     public void scale(float scaleFactorX, float scaleFactorY)
     {
-        vertices = lineManager.Vertices;
+        getData(lineManager.Hyperbola);
         multiplier = new Vector2[2];
 
         multiplier[0] = new Vector2(scaleFactorX, 0);
@@ -107,7 +155,7 @@ public class MatrixOperation : MonoBehaviour
         1 - vertical
         *****/
 
-        vertices = lineManager.Vertices;
+        getData(lineManager.Hyperbola);
         multiplier = new Vector2[2];
 
         if (operation == 0)
@@ -126,11 +174,20 @@ public class MatrixOperation : MonoBehaviour
 
     public void translate(int x, int y)
     {
-        vertices = lineManager.Vertices;
+        int multIndex = 0;
+        getData(lineManager.Hyperbola);
         newVertices = new Vector3[vertices.Length];
 
         //multiplier variable is used so that additional declarations won't be needed, even though nothing is being multiplied
-        multiplier = new Vector2[vertices.Length];
+
+        if (!lineManager.Hyperbola)
+        {
+            multiplier = new Vector2[vertices.Length];
+        }
+        else if( lineManager.Hyperbola )
+        {
+            multiplier = new Vector2[vertices.Length * 2];
+        }
 
         for (int i = 0; i < vertices.Length; i++)
         {
@@ -138,6 +195,21 @@ public class MatrixOperation : MonoBehaviour
             newVertices[i].y = vertices[i].y + y;
             multiplier[i].x = x;
             multiplier[i].y = y;
+            multIndex = i;
+        }
+        multIndex++;
+
+        if( lineManager.Hyperbola )
+        {
+            newVertices2 = new Vector3[vertices.Length];
+
+            for (int j = 0; j < vertices.Length; j++)
+            {
+                newVertices2[j].x = vertices[j].x + x;
+                newVertices2[j].y = vertices[j].y + y;
+                multiplier[multIndex + j].x = x;
+                multiplier[multIndex + j].y = y;
+            }
         }
 
         writeMatrixValues(multiplier, true);
@@ -145,7 +217,6 @@ public class MatrixOperation : MonoBehaviour
 
     void multiply(Vector2[] multiplier)
     {
-        print("KERRBIE MULTIPLY" + vertices.Length);
         newVertices = new Vector3[vertices.Length];
 
         for (int i = 0; i < vertices.Length; i++)
@@ -155,7 +226,31 @@ public class MatrixOperation : MonoBehaviour
             newVertices[i].z = vertices[i].z;
         }
 
+        if( lineManager.Hyperbola )
+        {
+            newVertices2 = new Vector3[vertices2.Length];
+
+            for (int i = 0; i < vertices2.Length; i++)
+            {
+                newVertices2[i].x = vertices2[i].x * multiplier[0].x + vertices2[i].y * multiplier[1].x;
+                newVertices2[i].y = vertices2[i].x * multiplier[0].y + vertices2[i].y * multiplier[1].y;
+                newVertices2[i].z = vertices2[i].z;
+            }
+        }
+
         writeMatrixValues(multiplier, false);
+    }
+
+    void multiply(Vector3[] multiplicand, Vector2[] multiplier)
+    {
+        vertices2 = new Vector3[vertices.Length];
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices2[i].x = multiplicand[i].x * multiplier[0].x + multiplicand[i].y * multiplier[1].x;
+            vertices2[i].y = multiplicand[i].x * multiplier[0].y + multiplicand[i].y * multiplier[1].y;
+            vertices2[i].z = multiplicand[i].z;
+        }
     }
 
     void writeMatrixValues( Vector2[] multiplier, bool isTranslation )

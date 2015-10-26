@@ -7,6 +7,7 @@ public class LineManager : MonoBehaviour {
 	public LineManager hyperbolicRenderer;
 	private LineRenderer lineRender;
 	private Vector3[] vertices;
+
     public Vector3[] Vertices
     {
         get
@@ -19,14 +20,34 @@ public class LineManager : MonoBehaviour {
 	public Vector3[] HyperbolicVertices
 	{
 		get
-		{
-			return hyperbolicVertices;
-		}
+        {
+            return hyperbolicVertices;
+        }
 	}
 
+    private bool isHyperbola = false;
 
-	// Use this for initialization
-	void Start () {
+    public bool Hyperbola
+    {
+        get
+        {
+            return isHyperbola;
+        }
+    }
+
+    private bool isHorizontal;
+
+    public bool Horizontal
+    {
+        get
+        {
+            return isHorizontal;
+        }
+    }
+
+
+    // Use this for initialization
+    void Start () {
 		lineRender = GetComponent<LineRenderer>();
 	}
 	
@@ -41,7 +62,7 @@ public class LineManager : MonoBehaviour {
 		}
 		lineRender.SetWidth(0.2f,0.2f);
         lineRender.SetColors(color, color);
-	}
+    }
 	
 	public void RenderEllipse(int segments, float xradius, float yradius, Vector3 vertex){
 		float x;
@@ -62,7 +83,7 @@ public class LineManager : MonoBehaviour {
 		}
 		
 		lineRender.SetWidth(0.2f,0.2f);
-	}
+    }
 	
 	public void RenderHyperbola(Vector3 vertex, int a, int b){
 		Vector3 vertex1;
@@ -74,6 +95,8 @@ public class LineManager : MonoBehaviour {
 		
 		RenderParabola(51,1, vertex1,0);
 		hyperbolicRenderer.RenderParabola(51,-1,vertex2,1);
+        isHyperbola = true;
+        isHorizontal = false;
 	}
 	
 	public void RenderHyperbolaHorizontal(Vector3 vertex, int a, int b){
@@ -86,6 +109,8 @@ public class LineManager : MonoBehaviour {
 		
 		RenderParabolaHorizontal(51,1, vertex1,0);
 		hyperbolicRenderer.RenderParabolaHorizontal(51,-1,vertex2,1);
+        isHyperbola = true;
+        isHorizontal = true;
 	}
 	
 	public void RenderParabola(int segments, int magnitude, Vector3 vertex, int det){
@@ -97,8 +122,8 @@ public class LineManager : MonoBehaviour {
 		
 		float y;
 		lineRender.SetVertexCount(segments - 1);
-		
-		while(x > 0){
+
+        while (x > 0){
 			y = magnitude * Mathf.Pow(x - vertex.x, 2) + vertex.y;
 			Debug.Log ("When x = " +x +" , y = " +y);
 			if(det == 0){
@@ -106,7 +131,7 @@ public class LineManager : MonoBehaviour {
 			}
 			else if(det == 1){
 				hyperbolicVertices[i] = new Vector3(x,y,0);
-			}
+            }
 			Debug.Log ("Pos: " +vertices[i]);
 			lineRender.SetPosition (i,new Vector3(x,y,0) );
 			i++;
@@ -121,7 +146,7 @@ public class LineManager : MonoBehaviour {
 			}
 			else if(det == 1){
 				hyperbolicVertices[i] = new Vector3(-x,y,0);
-			}
+            }
 			Debug.Log ("Pos: " +vertices[i]);
 			lineRender.SetPosition (i,new Vector3(-x,y,0) );
 			i++;
@@ -140,8 +165,8 @@ public class LineManager : MonoBehaviour {
 		
 		float x;
 		lineRender.SetVertexCount(segments - 1);
-		
-		while(y > 0){
+
+        while (y > 0){
 			x = magnitude * Mathf.Pow(y - vertex.y, 2) + vertex.x;
 			Debug.Log ("When x = " +x +" , y = " +y);
 			if(det == 0){
@@ -149,7 +174,7 @@ public class LineManager : MonoBehaviour {
 			}
 			else if(det == 1){
 				hyperbolicVertices[i] = new Vector3(x,y,0);
-			}
+            }
 			Debug.Log ("Pos: " +vertices[i]);
 			lineRender.SetPosition (i,new Vector3(x,y,0) );
 			i++;
@@ -164,7 +189,7 @@ public class LineManager : MonoBehaviour {
 			}
 			else if(det == 1){
 				hyperbolicVertices[i] = new Vector3(x,-y,0);
-			}
+            }
 			Debug.Log ("Pos: " +vertices[i]);
 			lineRender.SetPosition (i,new Vector3(x,-y,0) );
 			i++;
@@ -182,7 +207,8 @@ public class LineManager : MonoBehaviour {
 			if(hyperbolicRenderer != null){
 				hyperbolicRenderer.GetComponent<LineRenderer>().SetVertexCount(0);
 			}
-		}
+            isHyperbola = false;
+        }
 	}
 	 
 }
