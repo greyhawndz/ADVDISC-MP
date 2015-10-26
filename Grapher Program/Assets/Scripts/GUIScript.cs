@@ -587,6 +587,7 @@ public class GUIScript : MonoBehaviour {
 			print (pointY);
 			shape = Shapes.Conic;
 			particleGrapher.RenderPoint(new Vector3(pointX,pointY,0),new Color32(19,255,0,255));
+			lineManager.RemoveLine();
 			clear ();
 								
 				}
