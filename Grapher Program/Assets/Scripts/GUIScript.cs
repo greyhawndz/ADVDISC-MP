@@ -29,6 +29,7 @@ public class GUIScript : MonoBehaviour {
     public LineManager lineManager2;
     public LineManager lineManager3;
     public ParticleGrapher particleGrapher;
+    public ParticleGrapher particleGrapher2;
     public MatrixOperation operation;
 
 	//variables to choose which window, you can ignore these
@@ -320,15 +321,19 @@ public class GUIScript : MonoBehaviour {
 		{reflectX = true;
 			print ("Reflected Across X");
 
+            formulaBoxContent = "Reflect -> along the X Axis\n\n";
+
             if (shape == Shapes.Line)
             {
-                formulaBoxContent = "Reflect -> along the X Axis\n\n";
                 operation.reflect(lineManager.Vertices, 0);
-                drawLine(operation.NewVertices);
+                renderLine(operation.NewVertices);
             }
             else if( shape == Shapes.Conic )
             {
-
+                Vector3[] vertex = new Vector3[1];
+                vertex[0] = particleGrapher.Points[0].position;
+                operation.reflect(vertex, 0);
+                renderParticle(operation.NewVertices);
             }
 
             clear ();
@@ -338,15 +343,19 @@ public class GUIScript : MonoBehaviour {
 			reflectY = true;
 			print ("Reflected Across Y");
 
-            if( shape == Shapes.Line )
+            formulaBoxContent = "Reflect -> along the Y Axis\n\n";
+
+            if ( shape == Shapes.Line )
             {
-                formulaBoxContent = "Reflect -> along the Y Axis\n\n";
                 operation.reflect(lineManager.Vertices, 1);
-                drawLine(operation.NewVertices);
+                renderLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
             {
-
+                Vector3[] vertex = new Vector3[1];
+                vertex[0] = particleGrapher.Points[0].position;
+                operation.reflect(vertex, 1);
+                renderParticle(operation.NewVertices);
             }
 
             clear ();
@@ -370,15 +379,19 @@ public class GUIScript : MonoBehaviour {
 		    degreeBox ="";
 		    print(degrees);
 
-            if( shape == Shapes.Line )
+            formulaBoxContent = "Rotate -> " + degrees + " degrees CounterClockwise\n\n";
+
+            if ( shape == Shapes.Line )
             {
-                formulaBoxContent = "Rotate -> " + degrees + " degrees CounterClockwise\n\n";
                 operation.rotate(lineManager.Vertices, 1, degrees);
-                drawLine(operation.NewVertices);
+                renderLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
             {
-
+                Vector3[] vertex = new Vector3[1];
+                vertex[0] = particleGrapher.Points[0].position;
+                operation.rotate(vertex, 1, degrees);
+                renderParticle(operation.NewVertices);
             }
 
             clear ();            
@@ -389,15 +402,19 @@ public class GUIScript : MonoBehaviour {
 			degreeBox ="";
 			print(degrees);
 
-            if( shape == Shapes.Line )
+            formulaBoxContent = "Rotate -> " + degrees + " degrees Clockwise\n\n";
+
+            if ( shape == Shapes.Line )
             {
-                formulaBoxContent = "Rotate -> " + degrees + " degrees Clockwise\n\n";
                 operation.rotate(lineManager.Vertices, 0, degrees);
-                drawLine(operation.NewVertices);
+                renderLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
             {
-
+                Vector3[] vertex = new Vector3[1];
+                vertex[0] = particleGrapher.Points[0].position;
+                operation.rotate(vertex, 0, degrees);
+                renderParticle(operation.NewVertices);
             }
 
             clear ();            
@@ -426,15 +443,19 @@ public class GUIScript : MonoBehaviour {
 
             print(percentageScaleY);
 
+            formulaBoxContent = "Scale -> X: " + percentageScaleX + "%; Y: " + percentageScaleY + "%\n\n";
+
             if (shape == Shapes.Line)
             {
-                formulaBoxContent = "Scale -> X: " + percentageScaleX + "%; Y: " + percentageScaleY + "%\n\n";
                 operation.scale(lineManager.Vertices, (float)(percentageScaleX / 100.0), (float)(percentageScaleY / 100.0));
-                drawLine(operation.NewVertices);
+                renderLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
             {
-
+                Vector3[] vertex = new Vector3[1];
+                vertex[0] = particleGrapher.Points[0].position;
+                operation.scale(vertex, (float)(percentageScaleX / 100.0), (float)(percentageScaleY / 100.0));
+                renderParticle(operation.NewVertices);
             }
 
             clear ();			
@@ -456,15 +477,19 @@ public class GUIScript : MonoBehaviour {
 			isShearVertical = false;
 			print (shearAmount);
 
-            if( shape == Shapes.Line )
+            formulaBoxContent = "Shear -> Horizonal by " + shearAmount + "\n\n";
+
+            if ( shape == Shapes.Line )
             {
-                formulaBoxContent = "Shear -> Horizonal by " + shearAmount + "\n\n";
                 operation.shear(lineManager.Vertices, 0, shearAmount);
-                drawLine(operation.NewVertices);
+                renderLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
             {
-
+                Vector3[] vertex = new Vector3[1];
+                vertex[0] = particleGrapher.Points[0].position;
+                operation.shear(vertex, 0, shearAmount);
+                renderParticle(operation.NewVertices);
             }
 
             clear ();            
@@ -475,15 +500,19 @@ public class GUIScript : MonoBehaviour {
 			isShearVertical = true;
 			print (shearAmount);
 
-            if( shape == Shapes.Line )
+            formulaBoxContent = "Shear -> Vertical by " + shearAmount + "\n\n";
+
+            if ( shape == Shapes.Line )
             {
-                formulaBoxContent = "Shear -> Vertical by " + shearAmount + "\n\n";
                 operation.shear(lineManager.Vertices, 1, shearAmount);
-                drawLine(operation.NewVertices);
+                renderLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
             {
-
+                Vector3[] vertex = new Vector3[1];
+                vertex[0] = particleGrapher.Points[0].position;
+                operation.shear(vertex, 1, shearAmount);
+                renderParticle(operation.NewVertices);
             }
 
             clear ();            
@@ -507,15 +536,19 @@ public class GUIScript : MonoBehaviour {
 			print (xTranslate);
 			print (yTranslate);
 
-            if( shape == Shapes.Line )
+            formulaBoxContent = "Translate -> X: " + xTranslate + "; Y: " + yTranslate + "\n\n";
+
+            if ( shape == Shapes.Line )
             {
-                formulaBoxContent = "Translate -> X: " + xTranslate + "; Y: " + yTranslate + "\n\n";
                 operation.translate(lineManager.Vertices, xTranslate, yTranslate);
-                drawLine(operation.NewVertices);
+                renderLine(operation.NewVertices);
             }
             else if (shape == Shapes.Conic)
             {
-
+                Vector3[] vertex = new Vector3[1];
+                vertex[0] = particleGrapher.Points[0].position;
+                operation.translate(vertex, xTranslate, yTranslate);
+                renderParticle(operation.NewVertices);
             }
 
             clear ();            
@@ -529,13 +562,20 @@ public class GUIScript : MonoBehaviour {
 		GUI.DragWindow();
 	}
 
-    private void drawLine(Vector3[][] vertices)
+    private void renderLine(Vector3[][] vertices)
     {
         lineManager2.RenderLine(vertices[0], new Color32(0, 63, 247, 255));
         if (vertices[1] != null)
         {
             lineManager3.RenderLine(vertices[1], new Color32(0, 63, 247, 255));
         }
+        formulaBoxContent += operation.MatrixValues;
+        formulaBoxContent += operation.MatrixValues2;
+    }
+
+    private void renderParticle(Vector3[][] vertices)
+    {
+        particleGrapher2.RenderPoint(vertices[0][0], new Color32(0, 63, 247, 255));
         formulaBoxContent += operation.MatrixValues;
         formulaBoxContent += operation.MatrixValues2;
     }

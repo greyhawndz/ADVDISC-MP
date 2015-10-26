@@ -8,6 +8,14 @@ public class ParticleGrapher : MonoBehaviour {
 	private ParticleSystem ps;
 	private int currentResolution;
 	
+    public ParticleSystem.Particle[] Points
+    {
+        get
+        {
+            return points;
+        }
+    }
+
 	public ParticleSystem PS
     {
         get
